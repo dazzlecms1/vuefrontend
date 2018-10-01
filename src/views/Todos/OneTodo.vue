@@ -1,5 +1,29 @@
 <template>
-<div>one todo </div>
+<div class="section columns">
+  <div class="column">
+    <div class="box">
+      <div class="level">
+        <div class="level-left">
+          <p class="has-text-weight-bold is-size-4">{{todo.text}}</p>
+          <p class="has-text-grey is-size-6">{{todo.category}}</p>
+        </div>
+        <div class="level-right">
+          <div>
+            <div class="box">
+              <i class="fas fa-edit fa-2x"></i>
+            </div>
+          </div>
+
+          <div>
+            <div class="box">
+              <i class="fas fa-times fa-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>

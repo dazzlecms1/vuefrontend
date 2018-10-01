@@ -27,26 +27,25 @@
               <span class="panel-icon"><i class="fas fa-book"></i></span>
               <p 
                 @click="getOne({id: todo._id})"
-                class="level-item">{{todo.text}}</p>
+                :class="itemClass({category: todo.category})"
+              >{{todo.text}}</p>
             </div>
           </div>
 
           <div class="level-right">
             <i  
               @click="deleteTodo({id: todo._id})" 
-              class="far fa-trash-alt"
+              class="far fa-trash-alt fa-lg"
             ></i>
           </div>
 
-
         </div>
-
 
       </div> <!-- is-active -->
 
       <div class="panel-block">
         <button class="button is-link is-outlined is-fullwidth">
-          reset all filters
+          Load more
         </button>
       </div> <!-- reset all button -->
     </nav>
@@ -72,7 +71,23 @@ export default {
       deleteTodo: 'todos/deleteTodo',
       getOne: 'todos/getOne',
     }),
-    
+    itemClass({category}) {
+      const defaultClass = 'level-item is-size-5 '
+      switch(category) {
+        case 'improve':
+          return defaultClass +  'has-text-primary';
+        case 'sport':
+          return defaultClass +  'has-text-info';
+        case 'food':
+          return defaultClass +  'has-text-success';
+        case 'learn':
+          return defaultClass +  'has-text-warning';
+        case 'enjoy':
+          return defaultClass +  'has-text-danger';
+        default: return defaultClass;
+      }
+      
+    } 
   },
   computed: {
     ...mapGetters({
@@ -99,7 +114,6 @@ export default {
     if(this.$store.state.todos.redirect) {
       this.$store.commit('todos/redirect', false);
     }
-    //console.log(this.$store.getters)
   },
   watch: {
     '$store.state.todos.redirect'(v) {
