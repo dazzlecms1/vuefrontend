@@ -14,7 +14,7 @@ const todos = {
       state.todos = val;
     },
     getOne(state, val) {
-
+      console.log('get one mutation');
     },
     loading(state, bool) {
       state.loading = bool;
@@ -22,6 +22,12 @@ const todos = {
     redirect(state, bool) {
       state.redirect = bool;
     },
+    deleteTodo(state, todoId) {
+      const index = state.todos.findIndex(el => el._id === todoId);
+      console.log(state);
+      state.todos.splice(index, 1);
+      console.log(state);
+    }
   },
   actions: {
     async create({commit}, {text, category}) {
@@ -45,11 +51,24 @@ const todos = {
         console.log('get all error')
       }
     },
-    async getOne({commit}, {}) {
+    async getOne({commit}, {id}) {
+      console.log('get one todo action', id);
       commit('getOne');
-    }
+    },
+    async deleteTodo({commit}, {id}) {
+      console.log('delete todo action',  id);
+      commit('loading', true);
+      await delay(200);
+
+      const result = await api.delete('/todo/' + id);
+      if(result.status === 200) {
+        commit('deleteTodo', id)
+      }
+      commit('loading', false);
+    },
   },
   getters: {
+    todos: state => state.todos,
     loading: state => state.loading,
     redirect: state => state.redirect,
   }

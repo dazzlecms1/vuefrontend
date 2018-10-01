@@ -17,5 +17,10 @@ export default new Router({
       name: 'create',
       component: () => import('./views/Todos/Create.vue'),
     },
+    {
+      path: '/todos/:id',
+      name: 'OneTodo',
+      component: () => import('./views/Todos/OneTodo.vue'),
+    },
   ]
 })

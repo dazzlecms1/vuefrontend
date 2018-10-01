@@ -8,7 +8,7 @@
   </div>
 
     <div class="navbar-start">
-      <router-link class="navbar-item" to="/">
+      <router-link class="navbar-item" to="/" exact="">
         Todos
       </router-link>
       <router-link class="navbar-item" to="/create">
@@ -39,3 +39,9 @@
     }
   }
 </script>
+
+<style>
+.router-link-active {
+  text-decoration: underline;
+}
+</style>
