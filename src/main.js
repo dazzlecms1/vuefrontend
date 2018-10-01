@@ -18,7 +18,19 @@ ApiService.init();
 
 Vue.use(buefy);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+router.beforeEach((to, from, next) => {
+  
+  if(from.name === 'OneTodo') {
+    console.log(store.getters['todos/oneTodo']);
+    store.commit('todos/getOne', {})
+    console.log(store.getters['todos/oneTodo']);
+  }
+
+  next();
+  
+})
 
 new Vue({
   router,

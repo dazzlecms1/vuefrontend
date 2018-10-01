@@ -7,14 +7,16 @@ const todos = {
     todos: [],
     oneTodo: {},
     loading: false,
-    redirect: false
+    redirect: false,
+    search: '',
+    filter: '', // active completed
   },
   mutations: {
     getAll(state, val) {
       state.todos = val;
     },
     getOne(state, val) {
-      console.log('get one mutation');
+      state.oneTodo = val;
     },
     loading(state, bool) {
       state.loading = bool;
@@ -27,7 +29,10 @@ const todos = {
       console.log(state);
       state.todos.splice(index, 1);
       console.log(state);
-    }
+    },
+    search(state, searchVal) {
+      state.search = searchVal;
+    },
   },
   actions: {
     async create({commit}, {text, category}) {
@@ -51,9 +56,17 @@ const todos = {
         console.log('get all error')
       }
     },
-    async getOne({commit}, {id}) {
+    async getOne({commit}, {id}) {  
+      console.log(id);
       console.log('get one todo action', id);
-      commit('getOne');
+
+      const res = await api.get('/todo/' + id);
+      if(res.status === 200) {
+        commit('getOne', res.data);
+        commit('redirect', true);
+      } else {
+        console.log('error with get one todo action');
+      }
     },
     async deleteTodo({commit}, {id}) {
       console.log('delete todo action',  id);
@@ -68,9 +81,19 @@ const todos = {
     },
   },
   getters: {
-    todos: state => state.todos,
+    todos: (state) => {
+      switch(state.filter) {
+        case 'active': 
+          return state.todos.filter(todo => todo.completed === false);
+        case 'completed':
+          return state.todos.filter(todo => todo.completed === true)
+        default: return state.todos;
+      }
+    },
     loading: state => state.loading,
     redirect: state => state.redirect,
+    search: state => state.search,
+    oneTodo: state => state.oneTodo,
   }
 }
 

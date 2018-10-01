@@ -69,6 +69,7 @@ export default {
     })
   },
   async mounted(){
+    
   },
   watch: {
     '$store.state.todos.redirect'(v) {

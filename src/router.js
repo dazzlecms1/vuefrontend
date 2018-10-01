@@ -22,5 +22,5 @@ export default new Router({
       name: 'OneTodo',
       component: () => import('./views/Todos/OneTodo.vue'),
     },
-  ]
-})
+  ],
+});
