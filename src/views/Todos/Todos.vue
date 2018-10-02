@@ -4,7 +4,7 @@
 
     <nav class="panel column is-10 is-offset-1">
       <p class="panel-heading">
-        todos
+        todos {{count}}
       </p> <!-- heading -->
       <div class="panel-block">
         <p class="control has-icons-left">
@@ -44,7 +44,9 @@
       </div> <!-- is-active -->
 
       <div class="panel-block">
-        <button class="button is-link is-outlined is-fullwidth">
+        <button
+          @click="loadMore()" 
+          class="button is-link is-outlined is-fullwidth">
           Load more
         </button>
       </div> <!-- reset all button -->
@@ -70,6 +72,7 @@ export default {
     ...mapActions({
       deleteTodo: 'todos/deleteTodo',
       getOne: 'todos/getOne',
+      loadMore: 'todos/loadMore'
     }),
     itemClass({category}) {
       const defaultClass = 'level-item is-size-5 '
@@ -91,7 +94,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      todos: 'todos/todos'
+      todos: 'todos/todos',
+      count: 'todos/count'
     }),
     filteredTodos(arg) {
       return (
@@ -127,5 +131,8 @@ export default {
 <style>
 .panel-block {
   display: block;
+}
+.level-item {
+  cursor: pointer;
 }
 </style>
