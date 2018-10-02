@@ -14,6 +14,9 @@
       <router-link class="navbar-item" to="/create">
         Create
       </router-link>
+      <router-link class="navbar-item" to="/learn">
+        Learn
+      </router-link>
       <!-- <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">Strapi</a>
         <div class="navbar-dropdown is-boxed">
