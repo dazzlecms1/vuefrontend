@@ -1,13 +1,29 @@
 <template>
-<div class="section columns">
+<div class="section columns is-multiline">
   <div class="column is-8 is-offset-2">
     <div class="box">
       <div class="level">
         <div class="level-left">
           <div class="has-text-weight-bold is-size-4">{{todo.text}}</div>
           <div class="has-text-grey is-size-6">{{todo.category}}</div>
-        </div>
+        </div> <!-- left text and category -->
         <div class="level-right">
+          <div>
+            <div
+              @click="showCreateComment = !showCreateComment"
+              class="box" id="icon">
+              <i class="fas fa-comment fa-2x"></i>
+            </div>
+          </div> 
+
+          <div>
+            <div
+              @click="showComments = !showComments"
+              class="box" id="icon">
+              <i class="fas fa-comments fa-2x"></i>
+            </div>
+          </div>
+
           <div>
             <div
               @click="showModal(true)" 
@@ -23,10 +39,46 @@
                 class="fas fa-times fa-2x"></i>
             </div>
           </div>
-        </div>
+        </div> <!-- right icons edit and delete -->
       </div>
     </div>
   </div>
+
+  <div class="column is-8 is-offset-2" v-show="showComments">
+    <div class="box">
+      <h1>Comments List</h1>
+      <div v-for="comment in todo.comments" :key="comment._id">
+        <div class="box">
+          <div class="level">
+            <div class="level-left">{{comment.comment}}</div>
+            <div class="level-right">              
+              <i @click="deleteComment({id: comment._id})" class="fas fa-times"></i>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div> <!-- show comments -->
+
+  <div class="column is-8 is-offset-2" v-show="showCreateComment">
+    <div class="box">
+      <textarea v-model="commentText" class="textarea" placeholder="comment"></textarea><br>
+      <div class="field is-grouped is-grouped-right">
+        <p class="control">
+          <button 
+            @click="addComment({commentText})"
+            class="button is-link">Submit Comment</button>&nbsp;
+          <button class="button is-outlined is-primary">Reset</button>
+        </p>
+      </div>
+      
+    </div>
+  </div> <!-- create comment form -->
+
+  
+
+
 
   <div :class="modalClass">
     <div
@@ -74,6 +126,8 @@
       </footer>
     </div>
   </div>
+
+  
 </div>
 </template>
 
@@ -83,16 +137,21 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   data() {
     return {
+      commentText: '',
       modalClass: 'modal',
       text: '',
       category: '',
-      loadingClass: 'button is-link ld-ext-right'
+      loadingClass: 'button is-link ld-ext-right',
+      showCreateComment: true,
+      showComments: true,
     }
   },
   methods: {
     ...mapActions({
       updateTodo: 'todos/updateTodo',
       deleteTodo: 'todos/deleteTodo',
+      addComment: 'todos/addComment',
+      deleteComment: 'todos/deleteComment',
     }),
     showModal(bool) {
       if(bool) {

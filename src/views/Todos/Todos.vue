@@ -15,24 +15,10 @@
         </p>
       </div> <!-- search -->
       <p class="panel-tabs"> <!-- is-active -->
-        <a
-          @click="panelTabsClass('all')" 
-          :class="activeTab === 'all' ? 'is-active' : ''">all</a>
-        <a
-          @click="panelTabsClass('improve')" 
-          :class="activeTab === 'improve' ? 'is-active' : ''">improve</a>
-        <a
-          @click="panelTabsClass('sport')" 
-          :class="activeTab === 'sport' ? 'is-active' : ''">sport</a>
-        <a
-          @click="panelTabsClass('food')" 
-          :class="activeTab === 'food' ? 'is-active' : ''">food</a>
-        <a
-          @click="panelTabsClass('learn')" 
-          :class="activeTab === 'learn' ? 'is-active' : ''">learn</a>
-        <a
-          @click="panelTabsClass('enjoy')" 
-          :class="activeTab === 'enjoy' ? 'is-active' : ''">enjoy</a>
+        <a v-for="category in categories" :key="category"
+          @click="panelTabsClass(category)" 
+          :class="activeTab === category ? 'is-active' : ''">{{category}}</a>
+          
       </p> <!-- tabs -->
       <div 
         v-for="todo in filteredTodos" :key="todo._id"
@@ -73,8 +59,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
-// loadingClass: 'button is-link ld-ext-right' is-active
+import {mapActions, mapGetters} from 'vuex';
+
 
 export default {
   components: {
@@ -109,38 +95,15 @@ export default {
       
     },
     panelTabsClass(tab) {
-      switch(tab) {
-        case 'improve':
-          this.activeTab = 'improve';
-          this.$store.commit('todos/setActiveFilter', 'improve');
-          break;
-        case 'sport':
-          this.activeTab = 'sport';
-          this.$store.commit('todos/setActiveFilter', 'sport');
-          break;
-        case 'food':
-          this.activeTab = 'food';
-          this.$store.commit('todos/setActiveFilter', 'food');
-          break;
-        case 'learn':
-          this.activeTab = 'learn';
-          this.$store.commit('todos/setActiveFilter', 'learn');
-          break;
-        case 'enjoy':
-          this.activeTab = 'enjoy';
-          this.$store.commit('todos/setActiveFilter', 'enjoy');
-          break;
-        default: 
-          this.activeTab = 'all';
-          this.$store.commit('todos/setActiveFilter', 'all');
-          break;
-      }
+      this.activeTab = tab;
+      this.$store.commit('todos/setActiveFilter', tab);
     } 
   },
   computed: {
     ...mapGetters({
       todos: 'todos/todos',
-      count: 'todos/count'
+      count: 'todos/count',
+      categories: 'todos/categories',
     }),
     filteredTodos(arg) {
       return (

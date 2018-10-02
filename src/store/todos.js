@@ -5,6 +5,8 @@ const todos = {
   namespaced: true,
   state: {     
     todos: [],
+    categories: ['all', 'improve', 'sport', 'food', 'learn', 'enjoy'],
+    count: 0,
     oneTodo: {},
     loading: false,
     redirect: false,
@@ -16,6 +18,9 @@ const todos = {
     getAll(state, val) {
       state.todos = val;
       state.limit += 10;
+    },
+    getCount(state, count) {
+      state.count = count;
     },
     loadMore(state, val) {
       state.todos.concat(val);
@@ -42,6 +47,10 @@ const todos = {
     },
     setActiveFilter(state, filter) {
       state.filter = filter;
+    },
+    // comments
+    addComment({oneTodo}, val) {
+      
     }
   },
   actions: {
@@ -64,6 +73,11 @@ const todos = {
         commit('getAll', res.data);
       } else {
         console.log('get all error')
+      }
+      // get todos count
+      const count = await api.get('/todo/count');
+      if(res.status === 200) {
+        commit('getCount', count.data);
       }
     },
     async loadMore({commit, state}) {
@@ -108,29 +122,36 @@ const todos = {
         commit('updateTodo', res.data);
       }
       commit('loading', false);
+    },
+    async addComment({commit, state}, {commentText}) {
+
+      console.log('comment', commentText);
+      console.log(state.oneTodo._id);
+
+      const res = await api.post('/comment', {comment: commentText, todo: state.oneTodo._id});
+
+      if(res.status === 200) {
+        commit('addComment', res.data);
+      }
+    },
+    async deleteComment({commit, state}, {id}) {
+      console.log(id);
     }
   },
   getters: {
     todos: (state) => {
-      switch(state.filter) {
-        case 'improve':
-          return state.todos.filter(todo => todo.category === 'improve');
-        case 'sport':
-          return state.todos.filter(todo => todo.category === 'sport');
-        case 'food':
-          return state.todos.filter(todo => todo.category === 'food');
-        case 'learn':
-          return state.todos.filter(todo => todo.category === 'learn');
-        case 'enjoy':
-          return state.todos.filter(todo => todo.category === 'enjoy');
-        default: return state.todos;
+      if(state.filter === 'all') {
+        return state.todos
+      } else {
+        return state.todos.filter(todo => todo.category === state.filter);
       }
     },
     loading: state => state.loading,
     redirect: state => state.redirect,
     search: state => state.search,
     oneTodo: state => state.oneTodo,
-    count: state => state.todos.length
+    count: state => state.todos.length,
+    categories: state => state.categories
   }
 }
 
