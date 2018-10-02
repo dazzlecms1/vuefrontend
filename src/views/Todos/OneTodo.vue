@@ -18,7 +18,9 @@
 
           <div>
             <div class="box" id="icon">
-              <i class="fas fa-times fa-2x"></i>
+              <i 
+                @click="deleteTodo({id: todo._id, fromOneTodo: true})"
+                class="fas fa-times fa-2x"></i>
             </div>
           </div>
         </div>
@@ -89,7 +91,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateTodo: 'todos/updateTodo'
+      updateTodo: 'todos/updateTodo',
+      deleteTodo: 'todos/deleteTodo',
     }),
     showModal(bool) {
       if(bool) {
@@ -121,6 +124,11 @@ export default {
         this.modalClass = 'modal';
       }
     },
+    '$store.state.todos.oneTodo'(todo) {
+      if(Object.keys(todo).length === 0) {
+        this.$router.push({name: 'todos'});
+      }
+    }
   },
 }
 </script>

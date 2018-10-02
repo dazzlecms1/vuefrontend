@@ -14,8 +14,25 @@
           </span>
         </p>
       </div> <!-- search -->
-      <p class="panel-tabs">
-        <a class="is-active">all</a>
+      <p class="panel-tabs"> <!-- is-active -->
+        <a
+          @click="panelTabsClass('all')" 
+          :class="activeTab === 'all' ? 'is-active' : ''">all</a>
+        <a
+          @click="panelTabsClass('improve')" 
+          :class="activeTab === 'improve' ? 'is-active' : ''">improve</a>
+        <a
+          @click="panelTabsClass('sport')" 
+          :class="activeTab === 'sport' ? 'is-active' : ''">sport</a>
+        <a
+          @click="panelTabsClass('food')" 
+          :class="activeTab === 'food' ? 'is-active' : ''">food</a>
+        <a
+          @click="panelTabsClass('learn')" 
+          :class="activeTab === 'learn' ? 'is-active' : ''">learn</a>
+        <a
+          @click="panelTabsClass('enjoy')" 
+          :class="activeTab === 'enjoy' ? 'is-active' : ''">enjoy</a>
       </p> <!-- tabs -->
       <div 
         v-for="todo in filteredTodos" :key="todo._id"
@@ -34,7 +51,7 @@
 
           <div class="level-right">
             <i  
-              @click="deleteTodo({id: todo._id})" 
+              @click="deleteTodo({id: todo._id, fromOneTodo: false})" 
               class="far fa-trash-alt fa-lg"
             ></i>
           </div>
@@ -49,7 +66,7 @@
           class="button is-link is-outlined is-fullwidth">
           Load more
         </button>
-      </div> <!-- reset all button -->
+      </div> <!-- load more button -->
     </nav>
   </div>
 </div>
@@ -65,7 +82,7 @@ export default {
   },
   data() {
     return {
-      
+      activeTab: 'all'
     }
   },
   methods: {
@@ -90,6 +107,34 @@ export default {
         default: return defaultClass;
       }
       
+    },
+    panelTabsClass(tab) {
+      switch(tab) {
+        case 'improve':
+          this.activeTab = 'improve';
+          this.$store.commit('todos/setActiveFilter', 'improve');
+          break;
+        case 'sport':
+          this.activeTab = 'sport';
+          this.$store.commit('todos/setActiveFilter', 'sport');
+          break;
+        case 'food':
+          this.activeTab = 'food';
+          this.$store.commit('todos/setActiveFilter', 'food');
+          break;
+        case 'learn':
+          this.activeTab = 'learn';
+          this.$store.commit('todos/setActiveFilter', 'learn');
+          break;
+        case 'enjoy':
+          this.activeTab = 'enjoy';
+          this.$store.commit('todos/setActiveFilter', 'enjoy');
+          break;
+        default: 
+          this.activeTab = 'all';
+          this.$store.commit('todos/setActiveFilter', 'all');
+          break;
+      }
     } 
   },
   computed: {

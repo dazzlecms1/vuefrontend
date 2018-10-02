@@ -10,7 +10,7 @@ const todos = {
     redirect: false,
     search: '',
     limit: 10,
-    filter: '', // active completed
+    filter: 'all', // active completed // improve sport food learn enjoy
   },
   mutations: {
     getAll(state, val) {
@@ -32,13 +32,17 @@ const todos = {
     },
     deleteTodo(state, todoId) {
       const index = state.todos.findIndex(el => el._id === todoId);
-      console.log(state);
       state.todos.splice(index, 1);
-      console.log(state);
     },
     search(state, searchVal) {
       state.search = searchVal;
     },
+    updateTodo(state, val) {
+      state.oneTodo = val;
+    },
+    setActiveFilter(state, filter) {
+      state.filter = filter;
+    }
   },
   actions: {
     async create({commit}, {text, category}) {
@@ -81,32 +85,44 @@ const todos = {
         console.log('error with get one todo action');
       }
     },
-    async deleteTodo({commit}, {id}) {
+    async deleteTodo({commit}, {id, fromOneTodo}) {
       commit('loading', true);
       await delay(200);
 
       const result = await api.delete('/todo/' + id);
       if(result.status === 200) {
-        commit('deleteTodo', id)
+        commit('deleteTodo', id);
+        if(fromOneTodo) {
+          commit('getOne', {});
+        }
       }
+      
       commit('loading', false);
     },
     async updateTodo({commit, state}, {text, category}) {
       console.log('updateTodo action', text, category);
       commit('loading', true);
-      await delay(500);
+      await delay(200);
       const res = await api.put('/todo/' + state.oneTodo._id, {text, category});
-      console.log(res.data);
+      if(res.status === 200) {
+        commit('updateTodo', res.data);
+      }
       commit('loading', false);
     }
   },
   getters: {
     todos: (state) => {
       switch(state.filter) {
-        case 'active': 
-          return state.todos.filter(todo => todo.completed === false);
-        case 'completed':
-          return state.todos.filter(todo => todo.completed === true)
+        case 'improve':
+          return state.todos.filter(todo => todo.category === 'improve');
+        case 'sport':
+          return state.todos.filter(todo => todo.category === 'sport');
+        case 'food':
+          return state.todos.filter(todo => todo.category === 'food');
+        case 'learn':
+          return state.todos.filter(todo => todo.category === 'learn');
+        case 'enjoy':
+          return state.todos.filter(todo => todo.category === 'enjoy');
         default: return state.todos;
       }
     },
