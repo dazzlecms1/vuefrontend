@@ -28,5 +28,10 @@ export default new Router({
       name: 'Learn',
       component: () => import('./views/Learn/Learn.vue'),
     },
+    {
+      path: '/learn/:id',
+      name: 'Exercise',
+      component: () => import('./views/Learn/Exercise/Exercise.vue'),
+    },
   ],
 });

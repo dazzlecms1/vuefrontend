@@ -1,10 +1,14 @@
 <template>
-<div class="border columns is-multiline">
+<div class="section column is-8 is-offset-2">
 
   <div class="column is-12">
     <div class="level">
       <div class="level-left border">
-        <i class="fas fa-university fa-2x"></i>
+        <router-link 
+          tag="i"
+          class="fas fa-university fa-2x"
+          :to="{path: '/learn'}">
+        </router-link>
       </div>
       <div class="level-right">
         <div class="level-item border">
@@ -18,25 +22,25 @@
         </div>
       </div>
     </div>
-  </div><!-- left - main menu | right - previous, current, next-->
+  </div> <!-- left - main menu | right - previous, current, next-->
 
   <div class="column is-12">
     <p class="title is-3">Title</p>
-  </div><!-- title ex. Translate, fill in the gaps, choose etc  -->
-
+  </div> <!-- title ex. Translate, fill in the gaps, choose etc  -->
 
   <div class="column is-12">
-    <p class="is-size-4">Sentence in spanish</p>
-  </div><!-- the sentence in spanish -->
+    <p  v-for="sentence in exercises[0].sentences" :key="sentence._id"
+      class="is-size-4">{{sentence.text}}</p>
+  </div> <!-- the sentence in spanish -->
 
   <div class="column is-12">
     <textarea class="textarea"></textarea>
-  </div>
+  </div> <!-- textarea -->
 
   <div class="column is-12">
     <button class="button is-rounded">Skip</button>
     <button class="button is-rounded">Check</button>
-  </div>
+  </div> <!-- buttons -->
 </div>
 
 </template>
@@ -57,7 +61,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      
+      exercises: 'learn/pawnExercises'
     })
   },
   async mounted(){

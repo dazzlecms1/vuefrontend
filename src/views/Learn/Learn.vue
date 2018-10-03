@@ -2,41 +2,29 @@
 <div>
   <div class="box columns is-multiline is-centered">
 
-    <div v-show="!showExercise"
+    <div 
       v-for="exercise in exercises" :key="exercise._id"
       class='column is-2 has-text-centered'>
-      <div 
-        @click="showExercise = true" 
-        class="box">
-        <i :class="'fas fa-chess-' + exercise.type + ' fa-3x'"></i>
+      <div class="box">
+        <router-link 
+          tag="i"
+          :class="'fas fa-chess-' + exercise.type + ' fa-3x'"
+          :to="{path: '/learn/' + exercise._id}">
+        </router-link>
       </div>
     </div> <!-- exercise icons -->
 
-    <div v-show="showExercise" class="column is-12">
-      <exercise></exercise>
-    </div>
-
-
   </div>
-
-
-
-  
-
 </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
-import ExerciseVue from '@/views/Learn/Exercise/Exercise.vue';
 
 export default {
-  components: {
-    exercise: ExerciseVue
-  },
   data() {
     return {
-      showExercise: false,
+
     }
   },
   methods: {
