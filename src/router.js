@@ -29,6 +29,21 @@ export default new Router({
       component: () => import('./views/Learn/Learn.vue'),
     },
     {
+      path: '/learn/createNounOrVerb',
+      name: 'createNounOrVerb',
+      component: () => import('./views/Learn/createNounOrVerb.vue'),
+    },
+    {
+      path: '/learn/list',
+      name: 'list',
+      component: () => import('./views/Learn/List.vue'),
+    },
+    {
+      path: '/learn/createSentence',
+      name: 'createSentence',
+      component: () => import('./views/Learn/createSentence.vue'),
+    },
+    {
       path: '/learn/:id',
       name: 'Exercise',
       component: () => import('./views/Learn/Exercise/Exercise.vue'),

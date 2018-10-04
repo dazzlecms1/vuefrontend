@@ -29,8 +29,7 @@
   </div> <!-- title ex. Translate, fill in the gaps, choose etc  -->
 
   <div class="column is-12">
-    <p  v-for="sentence in exercises[0].sentences" :key="sentence._id"
-      class="is-size-4">{{sentence.text}}</p>
+    sentece
   </div> <!-- the sentence in spanish -->
 
   <div class="column is-12">
@@ -51,7 +50,7 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   data() {
     return {
-       
+      currentSentence: 1
     }
   },
   methods: {
@@ -61,7 +60,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      exercises: 'learn/pawnExercises'
+      
     })
   },
   async mounted(){
