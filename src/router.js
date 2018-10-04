@@ -48,5 +48,10 @@ export default new Router({
       name: 'Exercise',
       component: () => import('./views/Learn/Exercise/Exercise.vue'),
     },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('./views/test.vue'),
+    },
   ],
 });

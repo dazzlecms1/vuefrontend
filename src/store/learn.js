@@ -36,6 +36,7 @@ const todos = {
     search: '',
     words: [],
     filter: '',
+    modalClass: 'modal'
   },
   mutations: {
     load(state, val) {
@@ -46,7 +47,14 @@ const todos = {
     },
     setFilter(state, filter) {
       state.filter = filter;
-    }
+    },
+    showModal(state, bool) {
+      if(bool) {
+        state.modalClass += ' is-active';
+      } else {
+        state.modalClass = 'modal';
+      }
+    },
   },
   actions: {
     async createWord({}, word) {
@@ -64,6 +72,9 @@ const todos = {
       const res = await api.delete('/word/' + id);
       console.log(res.data);
     }, // fixed for word
+    async updateWord({}, {}) {
+      console.log('update word action');
+    }
   },
   getters: {
     words: state => {
@@ -75,6 +86,7 @@ const todos = {
     },
     search: state => state.search,
     exercises: state => state.exercises,
+    modalClass: state => state.modalClass,
   }
 }
 

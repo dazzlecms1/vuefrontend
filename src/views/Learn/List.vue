@@ -33,22 +33,25 @@
       </p> <!-- tabs -->
 
       <div class="panel-block">
+        
         <div class="level" v-for="word in filteredWords" :key="word.id">
-          <div class="level-left">
-            <div class="level-item">
-              <span class="panel-icon"><i class="fas fa-book"></i></span>
-              <p class="level-item is-size-5">{{word.name}}</p>
-            </div>
-          </div>
-          <div class="level-right">
-            <i
-              @click="deleteWord({id: word._id})" 
-              class="far fa-trash-alt fa-lg"></i>
-          </div>
-        </div>
-      </div> <!-- words -->
+            <div class="level-left" >
+              <div class="level-item">
+                <span class="panel-icon"><i class="fas fa-book"></i></span>
+                <p class="level-item is-size-5">{{word.name}}</p>
+              </div>
+            </div> <!-- end of level-left -->
+            <div class="level-right">
+              <i 
+                @click="$store.commit('learn/showModal', true)" 
+                class="far fa-edit fa-lg"></i>&nbsp;&nbsp;
+              <i
+                @click="deleteWord({id: word._id})" 
+                class="far fa-trash-alt fa-lg"></i>
+            </div> <!-- end of level-right -->
+        </div> <!-- end of level -->
 
-      <!--  -->
+      </div> <!-- words end of panel block -->
 
       <div class="panel-block">
         <button
@@ -59,23 +62,30 @@
     </nav>
   </div>
   
+  <modal></modal>
 
 </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
+import UpdateModalVue from '@/views/Learn/UpdateModal.vue';
 
 export default {
+  components: {
+    modal: UpdateModalVue
+  },
   data() {
     return {
-      activeTab: 'verb'
+      activeTab: 'verb',
     }
   },
   methods: {
     ...mapActions({
       deleteWord: 'learn/deleteWord',
+      updateWord: 'learn/updateWord',
     }),
+
   },
   computed: {
     ...mapGetters({

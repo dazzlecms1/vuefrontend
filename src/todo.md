@@ -1,4 +1,1 @@
-sentence -> noun and verb
-
-
-create sentence and reference it to a noun and a verb?
+@click="updateWord({id: word._id})" 

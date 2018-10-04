@@ -26,6 +26,9 @@
       <router-link class="navbar-item" to="/learn/list">
         List
       </router-link>
+      <router-link class="navbar-item" to="/test">
+        test
+      </router-link>
     </div>
 
   </nav>
