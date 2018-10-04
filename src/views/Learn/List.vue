@@ -17,6 +17,11 @@
       </div> <!-- search -->
       <p class="panel-tabs"> <!-- is-active -->
         <a 
+          @click="activeTab = ''"
+          :class="activeTab === '' ? 'is-active' : ''">All
+        </a>
+
+        <a 
           @click="activeTab = 'verb'"
           :class="activeTab === 'verb' ? 'is-active' : ''">verbs
         </a>
@@ -27,47 +32,23 @@
         </a>
       </p> <!-- tabs -->
 
-      <div 
-        v-if="activeTab === 'verb'"
-        class="panel-block">
-
-        <div class="level" v-for="v in filteredVerbs" :key="v._id">
+      <div class="panel-block">
+        <div class="level" v-for="word in filteredWords" :key="word.id">
           <div class="level-left">
             <div class="level-item">
               <span class="panel-icon"><i class="fas fa-book"></i></span>
-              <p class="level-item is-size-5">{{v.verb}}</p>
+              <p class="level-item is-size-5">{{word.name}}</p>
             </div>
           </div>
-
-          <div 
-            @click="deleteElement({element: 'verb', id: v._id})" 
-            class="level-right"><i class="far fa-trash-alt fa-lg"></i></div>
-
-        </div>
-
-      </div> <!-- is-active verbs -->
-
-      <div 
-        v-else-if="activeTab === 'noun'"
-        class="panel-block">
-
-        <div class="level" v-for="n in filteredNouns" :key="n._id">
-          <div class="level-left">
-            <div class="level-item">
-              <span class="panel-icon"><i class="fas fa-book"></i></span>
-              <p class="level-item is-size-5">{{n.noun}}</p>
-            </div>
+          <div class="level-right">
+            <i
+              @click="deleteWord({id: word._id})" 
+              class="far fa-trash-alt fa-lg"></i>
           </div>
-
-          <div
-            @click="deleteElement({element: 'noun', id: n._id})" 
-            class="level-right"><i class="far fa-trash-alt fa-lg"></i></div>
-
         </div>
+      </div> <!-- words -->
 
-      </div> <!-- is-active nouns --> <!-- very stupid but dunno/toolazy how to fix it yet -->
-
-
+      <!--  -->
 
       <div class="panel-block">
         <button
@@ -83,7 +64,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex';
 
 export default {
   data() {
@@ -93,31 +74,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      load: 'learn/load',
-      deleteElement: 'learn/deleteElement',
+      deleteWord: 'learn/deleteWord',
     }),
-    async load(element) {
-      if(this[element].length === 0 && this.activeTab === element) {
-        return this.$store.dispatch('learn/load', {element});
-      }
-    }
   },
   computed: {
     ...mapGetters({
-      verb: 'learn/verb',
-      noun: 'learn/noun',
+      words: 'learn/words'
     }),
-    filteredVerbs() {
+    filteredWords() {
       return (
-        this.$store.getters['learn/verb'].filter(verb => 
-          verb.verb.match(this.$store.getters['learn/search'])
-        )
-      )
-    },
-    filteredNouns() {
-      return (
-        this.$store.getters['learn/noun'].filter(noun => 
-          noun.noun.match(this.$store.getters['learn/search'])
+        this.$store.getters['learn/words'].filter(word => 
+          word.name.match(this.$store.getters['learn/search'])
         )
       )
     },
@@ -128,14 +95,14 @@ export default {
       set(value) {
         this.$store.commit('learn/search', value)
       }
-    } 
+    } // simple setter and getter.
   },
   async mounted(){
-    this.load(this.activeTab); 
+    this.$store.dispatch('learn/load');
   },
   watch: {
-    activeTab(val) {
-      this.load(val);
+    activeTab(filter) {
+      this.$store.commit('learn/setFilter', filter);
     }
   }
 }

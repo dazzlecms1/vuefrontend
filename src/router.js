@@ -29,9 +29,9 @@ export default new Router({
       component: () => import('./views/Learn/Learn.vue'),
     },
     {
-      path: '/learn/createNounOrVerb',
-      name: 'createNounOrVerb',
-      component: () => import('./views/Learn/createNounOrVerb.vue'),
+      path: '/learn/createWord',
+      name: 'createWord',
+      component: () => import('./views/Learn/createWord.vue'),
     },
     {
       path: '/learn/list',

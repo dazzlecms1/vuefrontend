@@ -17,8 +17,8 @@
       <router-link class="navbar-item" to="/learn">
         Learn
       </router-link>
-      <router-link class="navbar-item" to="/learn/createNounOrVerb">
-        Create element
+      <router-link class="navbar-item" to="/learn/createWord">
+        createWord
       </router-link>
       <router-link class="navbar-item" to="/learn/createSentence">
         Create sentence

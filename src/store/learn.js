@@ -30,40 +30,49 @@ const todos = {
     //   }
     // ],
     // Everything until this point is obsolete, just keeping it for reference
-    verbs: [],
-    nouns: [],
+    // verbs: [],
+    // nouns: [],
     sentences: [],
-    search: ''
+    search: '',
+    words: [],
+    filter: '',
   },
   mutations: {
-    load(state, {element, data}) {
-      element += 's';
-      state[element] = data;
+    load(state, val) {
+      state.words = val;
     },
     search(state, val) {
       state.search = val;
+    },
+    setFilter(state, filter) {
+      state.filter = filter;
     }
   },
   actions: {
-    async createNounOrVerb({}, {element, text}) {
-      const res = await api.post('/' + element, {[element]: text});
+    async createWord({}, word) {
+      const res = await api.post('/word', word);
       console.log(res.data);
-    },
+    }, // fixed for word
     async createSentence({}, {sentence}) {
       console.log(sentence);
     },
-    async load({commit}, {element}) {
-      const res = await api.get('/' + element);
-      commit('load', {element, data: res.data});
-    },
-    async deleteElement({}, {element, id}) {
-      const res = await api.delete(`/${element}/${id}`);
+    async load({commit}) {
+      const res = await api.get('/word');
+      commit('load', res.data);
+    }, // fixed for word
+    async deleteWord({}, {id}) {
+      const res = await api.delete('/word/' + id);
       console.log(res.data);
-    }
+    }, // fixed for word
   },
   getters: {
-    verb: state => state.verbs,
-    noun: state => state.nouns,
+    words: state => {
+      if(state.filter.length > 0) {
+        return state.words.filter(w => w.type === state.filter);
+      } else {
+        return state.words;
+      }
+    },
     search: state => state.search,
     exercises: state => state.exercises,
   }
