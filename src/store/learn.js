@@ -4,19 +4,16 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const todos = {
   namespaced: true,
   state: {  
-    // currentSentence: '',   
-    // exercises: [
-    //   {_id: 1, type: 'pawn'},
-    //   {_id: 2, type: 'knight'},
-    //   {_id: 3, type: 'bishop'},
-    //   {_id: 4, type: 'rook'},
-    //   {_id: 5, type: 'queen'},
-    //   {_id: 6, type: 'king'},
-    // ],
+    exercises: [
+      {_id: 1, type: 'pawn'},
+      {_id: 2, type: 'knight'},
+      {_id: 3, type: 'bishop'},
+      {_id: 4, type: 'rook'},
+      {_id: 5, type: 'queen'},
+      {_id: 6, type: 'king'},
+    ],
     // pawnExercises: [
     //   { _id: 1, 
-    //     verbs: ['ser', 'encantar', 'escribir', 'leer', 'rechazar', 'elegir'], 
-    //     nouns: ['mesa', 'madera', 'profesora', 'libro', 'obrero', 'juego', 'carta', 'dia', 'periodico'], 
     //     sentences: [
     //       {_id: 1, shown: true,  text: 'La mesa es de madera.'},
     //       {_id: 2, shown: false, text: 'Ella es una profesora de español'},
@@ -36,9 +33,16 @@ const todos = {
     verbs: [],
     nouns: [],
     sentences: [],
+    search: ''
   },
   mutations: {
-
+    load(state, {element, data}) {
+      element += 's';
+      state[element] = data;
+    },
+    search(state, val) {
+      state.search = val;
+    }
   },
   actions: {
     async createNounOrVerb({}, {element, text}) {
@@ -48,14 +52,20 @@ const todos = {
     async createSentence({}, {sentence}) {
       console.log(sentence);
     },
-    async load({commit, state}, {element}) {
+    async load({commit}, {element}) {
       const res = await api.get('/' + element);
+      commit('load', {element, data: res.data});
+    },
+    async deleteElement({}, {element, id}) {
+      const res = await api.delete(`/${element}/${id}`);
       console.log(res.data);
     }
   },
   getters: {
     verb: state => state.verbs,
     noun: state => state.nouns,
+    search: state => state.search,
+    exercises: state => state.exercises,
   }
 }
 

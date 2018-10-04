@@ -10,7 +10,7 @@
         <p class="control has-icons-left">
           <input v-model="search" class="input" type="text" placeholder="search">
           <span class="icon is-small is-left">
-            <i class="fas fa-search" aria-hidden="true"></i>
+            <i class="fas fa-search"></i>
           </span>
         </p>
       </div> <!-- search -->

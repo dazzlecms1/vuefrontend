@@ -26,22 +26,48 @@
           :class="activeTab === 'noun' ? 'is-active' : ''">nouns
         </a>
       </p> <!-- tabs -->
+
       <div 
+        v-if="activeTab === 'verb'"
         class="panel-block">
 
-        <div class="level">
+        <div class="level" v-for="v in filteredVerbs" :key="v._id">
           <div class="level-left">
             <div class="level-item">
               <span class="panel-icon"><i class="fas fa-book"></i></span>
-              <p class="level-item is-size-5">text</p>
+              <p class="level-item is-size-5">{{v.verb}}</p>
             </div>
           </div>
 
-          <div class="level-right"><i class="far fa-trash-alt fa-lg"></i></div>
+          <div 
+            @click="deleteElement({element: 'verb', id: v._id})" 
+            class="level-right"><i class="far fa-trash-alt fa-lg"></i></div>
 
         </div>
 
-      </div> <!-- is-active -->
+      </div> <!-- is-active verbs -->
+
+      <div 
+        v-else-if="activeTab === 'noun'"
+        class="panel-block">
+
+        <div class="level" v-for="n in filteredNouns" :key="n._id">
+          <div class="level-left">
+            <div class="level-item">
+              <span class="panel-icon"><i class="fas fa-book"></i></span>
+              <p class="level-item is-size-5">{{n.noun}}</p>
+            </div>
+          </div>
+
+          <div
+            @click="deleteElement({element: 'noun', id: n._id})" 
+            class="level-right"><i class="far fa-trash-alt fa-lg"></i></div>
+
+        </div>
+
+      </div> <!-- is-active nouns --> <!-- very stupid but dunno/toolazy how to fix it yet -->
+
+
 
       <div class="panel-block">
         <button
@@ -62,13 +88,13 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   data() {
     return {
-      search: '',
       activeTab: 'verb'
     }
   },
   methods: {
     ...mapActions({
-      load: 'learn/load'
+      load: 'learn/load',
+      deleteElement: 'learn/deleteElement',
     }),
     async load(element) {
       if(this[element].length === 0 && this.activeTab === element) {
@@ -80,7 +106,29 @@ export default {
     ...mapGetters({
       verb: 'learn/verb',
       noun: 'learn/noun',
-    })
+    }),
+    filteredVerbs() {
+      return (
+        this.$store.getters['learn/verb'].filter(verb => 
+          verb.verb.match(this.$store.getters['learn/search'])
+        )
+      )
+    },
+    filteredNouns() {
+      return (
+        this.$store.getters['learn/noun'].filter(noun => 
+          noun.noun.match(this.$store.getters['learn/search'])
+        )
+      )
+    },
+    search: {
+      get() {
+        return this.$store.state.learn.search
+      },
+      set(value) {
+        this.$store.commit('learn/search', value)
+      }
+    } 
   },
   async mounted(){
     this.load(this.activeTab); 
