@@ -36,7 +36,8 @@ const todos = {
     search: '',
     words: [],
     filter: '',
-    modalClass: 'modal'
+    modalClass: 'modal',
+    updatedWord: [],
   },
   mutations: {
     load(state, val) {
@@ -48,11 +49,13 @@ const todos = {
     setFilter(state, filter) {
       state.filter = filter;
     },
-    showModal(state, bool) {
+    showModal(state, {bool, id}) {
       if(bool) {
         state.modalClass += ' is-active';
+        state.updatedWord = id;
       } else {
         state.modalClass = 'modal';
+        state.updatedWord = [];
       }
     },
   },
@@ -72,8 +75,9 @@ const todos = {
       const res = await api.delete('/word/' + id);
       console.log(res.data);
     }, // fixed for word
-    async updateWord({}, {}) {
-      console.log('update word action');
+    async updateWord({state}, {name}) {
+      const res = await api.put('/word/' + state.updatedWord, {name});
+      console.log(res.data);
     }
   },
   getters: {
@@ -87,6 +91,7 @@ const todos = {
     search: state => state.search,
     exercises: state => state.exercises,
     modalClass: state => state.modalClass,
+    updatedWord: state => state.updatedWord
   }
 }
 

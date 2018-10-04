@@ -43,7 +43,7 @@
             </div> <!-- end of level-left -->
             <div class="level-right">
               <i 
-                @click="$store.commit('learn/showModal', true)" 
+                @click="$store.commit('learn/showModal', {bool: true, id: word.id})" 
                 class="far fa-edit fa-lg"></i>&nbsp;&nbsp;
               <i
                 @click="deleteWord({id: word._id})" 
