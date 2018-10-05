@@ -1,1 +1,1 @@
-@click="updateWord({id: word._id})" 
+[] fix the navbar

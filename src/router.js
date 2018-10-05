@@ -24,11 +24,6 @@ export default new Router({
     },
     // Learn
     {
-      path: '/learn',
-      name: 'Learn',
-      component: () => import('./views/Learn/Learn.vue'),
-    },
-    {
       path: '/learn/createWord',
       name: 'createWord',
       component: () => import('./views/Learn/createWord.vue'),
@@ -44,14 +39,14 @@ export default new Router({
       component: () => import('./views/Learn/createSentence.vue'),
     },
     {
-      path: '/learn/:id',
-      name: 'Exercise',
-      component: () => import('./views/Learn/Exercise/Exercise.vue'),
-    },
-    {
       path: '/test',
       name: 'test',
       component: () => import('./views/test.vue'),
+    },
+    {
+      path: '/sentences',
+      name: 'Sentences',
+      component: () => import('./views/Learn/Sentences.vue'),
     },
   ],
 });

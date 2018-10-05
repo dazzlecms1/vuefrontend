@@ -12,7 +12,7 @@
 <div class="field is-grouped is-grouped-right">
   <p class="control">
     <button
-      
+      @click="create({what: 'sentence', text})"
       class="button"
       >Submit
     </button>
@@ -36,12 +36,13 @@ export default {
   },
   methods: {
     ...mapActions({
+      create: 'learn/create'
     }),
   },
   computed: {
     ...mapGetters({
       
-    })
+    }),
   },
   async mounted(){
     

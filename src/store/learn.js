@@ -12,26 +12,6 @@ const todos = {
       {_id: 5, type: 'queen'},
       {_id: 6, type: 'king'},
     ],
-    // pawnExercises: [
-    //   { _id: 1, 
-    //     sentences: [
-    //       {_id: 1, shown: true,  text: 'La mesa es de madera.'},
-    //       {_id: 2, shown: false, text: 'Ella es una profesora de español'},
-    //       {_id: 3, shown: false, text: 'El libro es muy interesante'},
-    //       {_id: 4, shown: false, text: 'Soy obrero'},
-    //       {_id: 5, shown: false, text: 'Te encanta jugar juegos'},
-    //       {_id: 6, shown: false, text: 'Les encanta escribir cartas'},
-    //       {_id: 7, shown: false, text: 'Leemos el periodico todos los dias'},
-    //       {_id: 8, shown: false, text: 'El Gobierno rechaza el ultimátum'},
-    //       {_id: 9, shown: false, text: 'Elegimos un nuevo líder'},
-    //       {_id: 10,shown: false, text: 'Vosotros no les encanta la profesora nueva'},
-    //     ],
-
-    //   }
-    // ],
-    // Everything until this point is obsolete, just keeping it for reference
-    // verbs: [],
-    // nouns: [],
     sentences: [],
     search: '',
     words: [],
@@ -40,8 +20,14 @@ const todos = {
     updatedWord: [],
   },
   mutations: {
-    load(state, val) {
-      state.words = val;
+    load(state, {what, data}) {
+      if(what === 'sentence') {
+        state.sentences = data;
+      } else if (what === 'word') {
+        state.words = data;
+      } else {
+        console.log('load mutation error');
+      }
     },
     search(state, val) {
       state.search = val;
@@ -60,16 +46,25 @@ const todos = {
     },
   },
   actions: {
-    async createWord({}, word) {
-      const res = await api.post('/word', word);
-      console.log(res.data);
+    async create({}, {what, name, type, text}) {
+      if(what === 'word') {
+        const res = await api.post('/word', {name, type});
+        console.log(res.data);
+      } else if (what === 'sentence') {
+        const res = await api.post('/sentence', {text});
+        console.log(res.data);
+      }
     }, // fixed for word
-    async createSentence({}, {sentence}) {
-      console.log(sentence);
-    },
-    async load({commit}) {
-      const res = await api.get('/word');
-      commit('load', res.data);
+    async load({commit}, {what}) {
+      if (what === 'sentence') {
+        const res = await api.get('/sentence');
+        commit('load', {what, data: res.data});
+      } else if (what === 'word') {
+        const res = await api.get('/word');
+        commit('load', {what, data: res.data});
+      } else {
+        console.log('load error.');
+      }
     }, // fixed for word
     async deleteWord({}, {id}) {
       const res = await api.delete('/word/' + id);
@@ -78,7 +73,7 @@ const todos = {
     async updateWord({state}, {name}) {
       const res = await api.put('/word/' + state.updatedWord, {name});
       console.log(res.data);
-    }
+    } // fixed for word
   },
   getters: {
     words: state => {
@@ -91,7 +86,8 @@ const todos = {
     search: state => state.search,
     exercises: state => state.exercises,
     modalClass: state => state.modalClass,
-    updatedWord: state => state.updatedWord
+    updatedWord: state => state.updatedWord,
+    sentences: state => state.sentences,
   }
 }
 

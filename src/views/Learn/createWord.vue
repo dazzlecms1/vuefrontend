@@ -22,15 +22,9 @@
 
 <div class="field is-grouped is-grouped-right">
   <p class="control">
-    <button
-      @click="createWord({name, type})"
-      class="button"
-      >Submit
-    </button>
-  </p>
-  <p class="control">
-    <button class="button">Empty</button>
-  </p>
+    <button 
+      @click="create({what: 'word', name, type})" 
+      class="button">Submit</button></p>
 </div>
 
 
@@ -51,13 +45,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      createWord: 'learn/createWord'
+      create: 'learn/create'
     }),
   },
   computed: {
     ...mapGetters({
-      // loading: 'todos/loading',
-      // redirect: 'todos/redirect',
+
     })
   },
   async mounted(){

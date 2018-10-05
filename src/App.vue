@@ -8,26 +8,56 @@
     </div>
 
     <div class="navbar-start">
-      <router-link class="navbar-item" to="/" exact="">
-        Todos
-      </router-link>
-      <router-link class="navbar-item" to="/create">
-        Create
-      </router-link>
-      <router-link class="navbar-item" to="/learn">
-        Learn
-      </router-link>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Todos</a>
+        <div class="navbar-dropdown">
+          <router-link class="navbar-item" to="/" exact="">
+            Todos
+          </router-link>
+          <router-link class="navbar-item" to="/create">
+            Create
+          </router-link>
+        </div>
+      </div> <!-- todos -->
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Create</a>
+        <div class="navbar-dropdown">
+          <router-link class="navbar-item" to="/" exact="">
+            Todos
+          </router-link>
+          <router-link class="navbar-item" to="/create">
+            Create
+          </router-link>
+        </div>
+      </div> <!-- create -->
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">List</a>
+        <div class="navbar-dropdown">
+          <router-link class="navbar-item" to="/" exact="">
+            Todos
+          </router-link>
+          <router-link class="navbar-item" to="/create">
+            Create
+          </router-link>
+        </div>
+      </div> <!-- list -->
+
+
+
       <router-link class="navbar-item" to="/learn/createWord">
-        createWord
+        Create a word
       </router-link>
       <router-link class="navbar-item" to="/learn/createSentence">
-        Create sentence
+        Create a sentence
       </router-link>
       <router-link class="navbar-item" to="/learn/list">
-        List
+        List of words
       </router-link>
-      <router-link class="navbar-item" to="/test">
-        test
+      <router-link class="navbar-item" to="/sentences">
+        Sentences
       </router-link>
     </div>
 

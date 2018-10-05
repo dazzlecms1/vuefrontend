@@ -77,7 +77,7 @@ export default {
   },
   data() {
     return {
-      activeTab: 'verb',
+      activeTab: '',
     }
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
     } // simple setter and getter.
   },
   async mounted(){
-    this.$store.dispatch('learn/load');
+    this.$store.dispatch('learn/load', {what: 'word'});
   },
   watch: {
     activeTab(filter) {
