@@ -4,20 +4,14 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const todos = {
   namespaced: true,
   state: {  
-    exercises: [
-      {_id: 1, type: 'pawn'},
-      {_id: 2, type: 'knight'},
-      {_id: 3, type: 'bishop'},
-      {_id: 4, type: 'rook'},
-      {_id: 5, type: 'queen'},
-      {_id: 6, type: 'king'},
-    ],
     sentences: [],
     search: '',
     words: [],
     filter: '',
     modalClass: 'modal',
     updatedWord: [],
+    currentWord: [],
+    sidebar: [],
   },
   mutations: {
     load(state, {what, data}) {
@@ -42,6 +36,24 @@ const todos = {
       } else {
         state.modalClass = 'modal';
         state.updatedWord = [];
+      }
+    },
+    setCurrentWord(state, word) {
+      state.currentWord = word;
+    },
+    sidebar(state, {word, operation}) {
+      if(operation === 'add') {
+        // check if item is already there;
+        if(!state.sidebar.find(w => w._id === word._id)){ // item is not there
+          // push
+          state.sidebar.push(word);
+        }
+      } else if(operation === 'remove') {
+        if(state.sidebar.find(w => w._id === word._id)){ // item is there
+          console.log('remove');
+          // remove
+          state.sidebar = state.sidebar.filter(w => w._id !== word._id);
+        }
       }
     },
   },
@@ -73,7 +85,13 @@ const todos = {
     async updateWord({state}, {name}) {
       const res = await api.put('/word/' + state.updatedWord, {name});
       console.log(res.data);
-    } // fixed for word
+    }, // fixed for word
+    async loadWord({commit}, {id}) {
+      const res = await api.get('/word/' + id);
+      if(res.status === 200) {
+        commit('setCurrentWord', res.data);
+      }
+    },
   },
   getters: {
     words: state => {
@@ -88,6 +106,8 @@ const todos = {
     modalClass: state => state.modalClass,
     updatedWord: state => state.updatedWord,
     sentences: state => state.sentences,
+    currentWord: state => state.currentWord,
+    sidebar: state => state.sidebar,
   }
 }
 

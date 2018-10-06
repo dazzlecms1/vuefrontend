@@ -1,12 +1,11 @@
 <template>
-<div class="section">
-  <h1>List of</h1>
+<div>
   <div class="columns">
-
-    <nav class="panel column is-10 is-offset-1">
+    <nav class="panel column">
       <p class="panel-heading">
         Heading
       </p> <!-- heading -->
+
       <div class="panel-block">
         <p class="control has-icons-left">
           <input v-model="search" class="input" type="text" placeholder="search">
@@ -15,6 +14,7 @@
           </span>
         </p>
       </div> <!-- search -->
+
       <p class="panel-tabs"> <!-- is-active -->
         <a 
           @click="activeTab = ''"
@@ -38,16 +38,27 @@
             <div class="level-left" >
               <div class="level-item">
                 <span class="panel-icon"><i class="fas fa-book"></i></span>
-                <p class="level-item is-size-5">{{word.name}}</p>
+                <router-link 
+                  tag="p"
+                  class="level-item is-size-5"
+                  :to="{path: `/${word.id}`}"
+                  >{{word.name}}</router-link>
               </div>
             </div> <!-- end of level-left -->
             <div class="level-right">
+              <i
+                @click="$store.commit('learn/sidebar', {word, operation: 'add'})" 
+                class="fas fa-plus-circle fa-lg">
+              </i>&nbsp;&nbsp;
               <i 
                 @click="$store.commit('learn/showModal', {bool: true, id: word.id})" 
-                class="far fa-edit fa-lg"></i>&nbsp;&nbsp;
+                class="far fa-edit fa-lg">
+              </i>&nbsp;&nbsp;
               <i
                 @click="deleteWord({id: word._id})" 
-                class="far fa-trash-alt fa-lg"></i>
+                class="far fa-trash-alt fa-lg">
+              </i>
+
             </div> <!-- end of level-right -->
         </div> <!-- end of level -->
 

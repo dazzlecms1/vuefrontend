@@ -27,17 +27,17 @@ export default new Router({
       path: '/learn/createWord',
       name: 'createWord',
       component: () => import('./views/Learn/createWord.vue'),
-    },
+    }, // create word
     {
       path: '/learn/list',
       name: 'list',
       component: () => import('./views/Learn/List.vue'),
-    },
+    }, // list of words
     {
       path: '/learn/createSentence',
       name: 'createSentence',
       component: () => import('./views/Learn/createSentence.vue'),
-    },
+    }, // create sentence 
     {
       path: '/test',
       name: 'test',
@@ -47,6 +47,11 @@ export default new Router({
       path: '/sentences',
       name: 'Sentences',
       component: () => import('./views/Learn/Sentences.vue'),
-    },
+    }, // list of sentences
+    {
+      path: '/:id',
+      name: 'word',
+      component: () => import('./views/Learn/Word.vue'),
+    }, // list of sentences
   ],
 });
