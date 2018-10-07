@@ -1,6 +1,6 @@
 <template>
 <ul>
-  <li v-for="word in sidebar" :key="word._id">
+  <li class="has-text-centered" v-for="word in sidebar" :key="word._id">
     
   <span :class="'tag is-medium ' + (word.type === 'verb' ? 'is-primary' : 'is-link')">
     {{word.name}}
@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      sidebar: 'learn/sidebar',
+      sidebar: "learn/sidebar",
     })
   },
   async mounted(){
@@ -39,3 +39,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+span {
+  cursor: pointer;
+}
+</style>

@@ -5,6 +5,7 @@ const todos = {
   namespaced: true,
   state: {  
     sentences: [],
+    currentSentence: [],
     search: '',
     words: [],
     filter: '',
@@ -50,11 +51,13 @@ const todos = {
         }
       } else if(operation === 'remove') {
         if(state.sidebar.find(w => w._id === word._id)){ // item is there
-          console.log('remove');
           // remove
           state.sidebar = state.sidebar.filter(w => w._id !== word._id);
         }
       }
+    }, // add and remove words from the sidebar
+    setCurrentSentence(state, {sentence}) {
+      state.currentSentence = sentence;
     },
   },
   actions: {
@@ -108,6 +111,7 @@ const todos = {
     sentences: state => state.sentences,
     currentWord: state => state.currentWord,
     sidebar: state => state.sidebar,
+    currentSentence: state => state.currentSentence,
   }
 }
 
