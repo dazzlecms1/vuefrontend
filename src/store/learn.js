@@ -5,7 +5,10 @@ const todos = {
   namespaced: true,
   state: {  
     sentences: [],
-    currentSentence: [],
+    currentSentence: {
+      sentence: [],
+      words: [],
+    },
     search: '',
     words: [],
     filter: '',
@@ -57,8 +60,20 @@ const todos = {
       }
     }, // add and remove words from the sidebar
     setCurrentSentence(state, {sentence}) {
-      state.currentSentence = sentence;
+      state.currentSentence.sentence = sentence;
     },
+    moveWord(state, {word, operation}) {
+      if(operation === 'toSentence') {
+        if(!state.currentSentence.words.find(w => w._id === word._id)) {
+          state.currentSentence.words.push(word);
+        }
+      } else if(operation === 'toSidebar') {
+        if(state.currentSentence.words.find(w => w._id === word._id)) {
+          // remove
+          state.currentSentence.words = state.currentSentence.words.filter(w => w._id !== word._id);
+        }
+      }
+    }
   },
   actions: {
     async create({}, {what, name, type, text}) {

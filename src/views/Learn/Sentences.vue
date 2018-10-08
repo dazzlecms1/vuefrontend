@@ -5,8 +5,22 @@
     class="column is-12 border" 
     v-for="sentence in sentences" 
     :key="sentence._id"
-    @click="$store.commit('learn/setCurrentSentence', {sentence})"
-    ><p :class="sentence._id === currentSentence._id ? 'has-text-primary' : ''">{{sentence.text}}</p>
+    @click="$store.commit('learn/setCurrentSentence', {sentence})">
+    <div class="level">
+      <div class="level-left">
+        <div 
+          :class="sentence._id === current.sentence._id ? 'has-text-primary' : ''"
+          >{{sentence.text}} 
+        </div>
+      </div>
+      <div v-show="showLevelRight" class="level-right">
+        <div 
+          v-for="item in current.words" :key="item._id"
+          @click="$store.commit('learn/moveWord', {word, operation: 'toSidebar'})"
+          class="level-item">{{item.name}}</div>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -19,24 +33,29 @@ export default {
   data() {
     return {
       rightItem: '',
+      showLevelRight: false,
     }
   },
   methods: {
-    ...mapActions({
-      
-    }),
+    ...mapActions({}),
   },
   computed: {
     ...mapGetters({
       sentences: 'learn/sentences',
-      currentSentence: 'learn/currentSentence',
+      current: 'learn/currentSentence',
     }),
   },
   async mounted(){
     this.$store.dispatch('learn/load', {what: 'sentence'});
   },
   watch: {
-    
+    'current.words'(val) {
+      if(this.current.words.length > 0) {
+        this.showLevelRight = true;
+      } else {
+        this.showLevelRight = false;
+      }
+    }
   }
 }
 </script>
@@ -49,8 +68,5 @@ export default {
 }
 .box:hover {
   background-color: #cecada;
-}
-p {
-  cursor: pointer;
 }
 </style>
