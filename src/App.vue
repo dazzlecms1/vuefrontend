@@ -8,48 +8,54 @@
     </div>
 
     <div class="navbar-start">
-      <router-link class="navbar-item" to="/" exact="">
-        Todos
-      </router-link>
-      <router-link class="navbar-item" to="/create">
-        Create
-      </router-link>
-      <router-link class="navbar-item" to="/learn">
-        Learn
-      </router-link>
-      <router-link class="navbar-item" to="/learn/createWord">
-        createWord
-      </router-link>
-      <router-link class="navbar-item" to="/learn/createSentence">
-        Create sentence
-      </router-link>
-      <router-link class="navbar-item" to="/learn/list">
-        List
-      </router-link>
-      <router-link class="navbar-item" to="/test">
-        test
-      </router-link>
+      <router-link to="/">Home</router-link>
     </div>
 
-  </nav>
-  <router-view/>
+
+  </nav><br>
+  <div class="columns border">
+    <div :class="mainClass">
+      <router-view/>
+    </div> <!-- router-view -->
+    <div 
+      v-show="showSidebar"
+      class="column border is-2">
+      <sidebar></sidebar>
+    </div> <!-- sidebar -->
+  </div>
 </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-      };
-    },
-    methods: {
+import { mapGetters } from "vuex";
+
+export default {
+  data() {
+    return {
       
-    }
+    };
+  },
+  methods: {},
+  computed: {
+    ...mapGetters({
+    })
+  },
+  watch: {
+    
+  },
+  async mounted() {
+    
   }
+};
 </script>
 
 <style>
 .router-link-active {
   text-decoration: underline;
+}
+.border {
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  border-radius: 6px;
+  color: #4a4a4a;
 }
 </style>

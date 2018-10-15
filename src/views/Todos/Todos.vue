@@ -63,9 +63,6 @@ import {mapActions, mapGetters} from 'vuex';
 
 
 export default {
-  components: {
-    
-  },
   data() {
     return {
       activeTab: 'all'
