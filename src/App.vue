@@ -9,20 +9,13 @@
 
     <div class="navbar-start">
       <router-link to="/">Home</router-link>
+      <router-link to="/create">Create</router-link>
     </div>
 
 
   </nav><br>
-  <div class="columns border">
-    <div :class="mainClass">
       <router-view/>
-    </div> <!-- router-view -->
-    <div 
-      v-show="showSidebar"
-      class="column border is-2">
-      <sidebar></sidebar>
-    </div> <!-- sidebar -->
-  </div>
+
 </div>
 </template>
 

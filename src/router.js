@@ -9,8 +9,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'todos',
-      component: () => import('./views/Todos/Todos.vue'),
+      name: 'features',
+      component: () => import('./views/Features.vue'),
+    },
+    {
+      path: '/create',
+      name: 'Create',
+      component: () => import('./views/Create.vue'),
     },
   ],
 });
