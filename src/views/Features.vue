@@ -45,9 +45,7 @@ export default {
     
   },
   watch: {
-    // '$store.state.todos.redirect'(v) {
-    //   if(v) this.$router.push({path: '/todos/' + this.$store.getters['todos/oneTodo']._id}) 
-    // },
+    
   }
 }
 </script>

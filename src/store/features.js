@@ -10,10 +10,13 @@ const todos = {
       value: false,
     },
     redirect: false,
+    notification: {
+      show: false,
+      text: 'default text',
+    }
   },
   mutations: {
     loading(state, bool) {
-      console.log('loading');
       state.loading.value = bool;
     },
     redirect(state, bool) {
@@ -21,6 +24,11 @@ const todos = {
     },
     getAll(state, val) {
       state.features = val;
+    },
+    notification(state, {show, text}) {
+      console.log('notification');
+      state.notification.show = show; 
+      state.notification.text = text; 
     }
   },
   actions: {
@@ -32,11 +40,13 @@ const todos = {
         console.log(res.data);
         commit('loading', false);
         commit('redirect', true);
+        commit('notification', {show: true, text: res.data.name})
       }
-    }
+    },
   },
   getters: {
     features: state => state.features,
+    notification: state => state.notification,
   }
 }
 

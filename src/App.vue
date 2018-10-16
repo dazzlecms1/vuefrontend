@@ -8,19 +8,30 @@
     </div>
 
     <div class="navbar-start">
-      <router-link to="/">Home</router-link>
-      <router-link to="/create">Create</router-link>
+      <router-link class="navbar-item" to="/" exact>Home</router-link>
+      <router-link class="navbar-item" to="/create">Create</router-link>
     </div>
 
 
   </nav><br>
-      <router-view/>
+
+  <div 
+    v-show="notification.show"
+    class="notification is-primary column is-offset-3 is-6">
+    <button
+      @click="$store.commit('features/notification', {show: false, text: ''})" 
+      class="delete"></button>{{notification.text}}
+  </div>
+
+
+  <router-view/>
 
 </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default {
   data() {
@@ -28,16 +39,26 @@ export default {
       
     };
   },
-  methods: {},
+  methods: {
+    ...mapActions({
+
+    }),
+  },
   computed: {
     ...mapGetters({
-    })
+      notification: 'features/notification',
+    }),
   },
   watch: {
-    
+    '$store.state.todos.redirect'(val) {
+      if(val) {
+        this.$store.commit('redirect', false);
+      }
+    },
   },
   async mounted() {
-    
+    await delay(5000);
+    this.$store.commit('features/notification', {show: false, text: ''});
   }
 };
 </script>
