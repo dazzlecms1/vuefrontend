@@ -51,9 +51,6 @@ export default {
     ...mapActions({
       create: 'features/create'
     }),
-    // reset() {
-    //   console.log('reset button');
-    // }
   },
   computed: {
     ...mapGetters({
@@ -66,13 +63,12 @@ export default {
   watch: {
     '$store.state.features.redirect'(val) {
       if(val) {
-        console.log('redirect in create');
         this.$router.push({path: '/'}); 
       }
     },
-    '$store.state.features.loading.value'(val) {
-      this.loadingClass = loading.simpleLoading(val);
-    },
+    '$store.state.features.loading.value'(loadingVal) {
+      this.loadingClass = loading.simpleLoading(loadingVal);
+    }, // create button loading
     
   }
 }

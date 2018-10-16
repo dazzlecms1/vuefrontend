@@ -12,15 +12,20 @@
         <div class="level-item">
           <p class="title is-5">{{f.description}}</p>
         </div>
-      </div>
+      </div> <!-- name and description -->
 
       <div class="level-right">
+        <router-link
+          :to="{path: '/features/' + f._id}"
+          tag="button"
+          class="button"
+        >Show</router-link>
         <button
-          :class="removeButtonClass({id: f._id})"
+          :class="removeButtonLoading({id: f._id})"
           @click="remove({id: f._id})"
           >Delete<div class="ld ld-square ld-tick"></div>
         </button>
-      </div>
+      </div> <!-- buttons -->
     </div>
 
   </div>
@@ -29,6 +34,8 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
+import loading from '@/utils/';
+
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default {
@@ -40,31 +47,20 @@ export default {
   methods: {
     ...mapActions({
       remove: 'features/remove',
+      getOne: 'features/getOne',
     }),
-    removeButtonClass() {
-      return 'button ld-ext-right';
-    }
+    removeButtonLoading({id}) {
+      return loading.complexLoading({loadingId: this.loading.button, id});
+    } // remove button loading animation
   },
   computed: {
     ...mapGetters({
       features: 'features/features',
       redirect: 'features/redirect',
+      loading: 'features/loading',
+      notification: 'features/notification',
+      oneFeature: 'features/oneFeature',
     }),
-    // filteredTodos(arg) {
-    //   return (
-    //     this.$store.getters['todos/todos'].filter(todo => 
-    //       todo.text.match(this.$store.getters['todos/search'])
-    //     )
-    //   )
-    // },
-    // search: {
-    //   get() {
-    //     return this.$store.state.todos.search
-    //   },
-    //   set(value) {
-    //     this.$store.commit('todos/search', value)
-    //   }
-    // }  
   },
   async mounted(){
     this.$store.dispatch('features/getAll'); // load all notifications
@@ -72,11 +68,11 @@ export default {
     if(this.redirect) {
       this.$store.commit('features/redirect', false);
     } // set redirect to false
-    await delay(2000);
-    this.$store.commit('features/notification', {show: false, text: ''}); // hide notification
 
-   
-
+    if(this.notification.show) {
+      await delay(2000);
+      this.$store.commit('features/notification', {show: false, text: ''}); // hide notification
+    } // if notification is shown
   },
   watch: {
     

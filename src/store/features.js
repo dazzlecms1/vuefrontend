@@ -13,11 +13,16 @@ const todos = {
     notification: {
       show: false,
       text: 'default text',
-    }
+    },
+    oneFeature: [],
   },
   mutations: {
-    loading(state, bool) {
-      state.loading.value = bool;
+    loading(state, arg) {
+      if(typeof arg === 'boolean') {
+        state.loading.value = arg;
+      } else {
+        state.loading = arg;
+      }
     },
     redirect(state, bool) {
       state.redirect = bool;
@@ -25,11 +30,16 @@ const todos = {
     getAll(state, val) {
       state.features = val;
     },
+    removeOne(state, feature) {
+      state.features = state.features.filter(i => i._id !== feature._id)
+    },
+    getOne(state, feature) {
+      state.oneFeature = feature;
+    },
     notification(state, {show, text}) {
-      console.log('notification');
       state.notification.show = show; 
       state.notification.text = text; 
-    }
+    },
   },
   actions: {
     async create({commit}, {name, description}) {
@@ -50,20 +60,39 @@ const todos = {
     },
     async remove({commit}, {id}) {
       commit('loading', {value: true, button: id});
-      await delay(2200);
-
+      await delay(800);
+      const res = await api.delete('/features/' + id);
+      if(res.status === 200) {
+        commit('removeOne', res.data);
+      }
       commit('loading', {value: false, button: ''});
-      // const result = await api.delete('/todo/' + id);
-      // if(result.status === 200) {
-      //   commit('deleteTodo', id);
-        
-      // }
+      
+    },
+    async getOne({commit}, {id}) {
+      const res = await api.get('/features/' + id);
+      if(res.status === 200) {
+        commit('getOne', res.data);
+      }
+    },
+    async update({commit, state}, {element, value}) {
+      const res = await api.put('/features/' + state.oneFeature._id, {[element]: value});
+      if(res.status === 200) {
+        commit('getOne', res.data);
+      }
+    },
+    async postComment({commit, state}, {comment}) {
+      const res = await api.post('/comments', {comment, feature: state.oneFeature._id})
+      if(res.status === 200) {
+        console.log(res.data);
+      }
     }
   },
   getters: {
     features: state => state.features,
     notification: state => state.notification,
     redirect: state => state.redirect,
+    loading: state => state.loading,
+    oneFeature: state => state.oneFeature,
   }
 }
 

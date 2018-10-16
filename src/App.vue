@@ -17,7 +17,7 @@
 
   <div 
     v-show="notification.show"
-    class="notification is-primary column is-offset-3 is-6">
+    class="notification is-primary column is-12">
     <button
       @click="$store.commit('features/notification', {show: false, text: ''})" 
       class="delete"></button>{{notification.text}}

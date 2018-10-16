@@ -135,3 +135,23 @@ actions: {
     addComment({oneTodo}, val) {
       
     }
+
+
+
+
+
+    // filteredTodos(arg) {
+    //   return (
+    //     this.$store.getters['todos/todos'].filter(todo => 
+    //       todo.text.match(this.$store.getters['todos/search'])
+    //     )
+    //   )
+    // },
+    // search: {
+    //   get() {
+    //     return this.$store.state.todos.search
+    //   },
+    //   set(value) {
+    //     this.$store.commit('todos/search', value)
+    //   }
+    // }  

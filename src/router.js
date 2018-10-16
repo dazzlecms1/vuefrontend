@@ -14,11 +14,15 @@ export default new Router({
       component: () => import('./views/Features.vue'),
     },
     {
+      path: '/features/:id',
+      name: 'OneFeature',
+      component: () => import('./views/OneFeature.vue'),
+    },
+    {
       path: '/create',
       name: 'Create',
       component: () => import('./views/Create.vue'),
       beforeEnter(to, from, next) {
-        console.log('before enter Create.vue')
         store.commit('features/notification', {show: false, text: ''})
         next();
       }

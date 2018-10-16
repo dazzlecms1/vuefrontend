@@ -1,13 +1,14 @@
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const loadingBoilerplate = 'button is-link ld-ext-right ';
+const loadingDelete = 'button ld-ext-right ';
+const running = 'running';
 
 export default {
-  simpleLoading(val) {
-    return val ? loadingBoilerplate + 'running' : loadingBoilerplate;
+  simpleLoading(loadingVal) {
+    return loadingVal ? loadingBoilerplate + 'running' : loadingBoilerplate;
   },
-  complexLoading() {
-    
+  complexLoading({loadingId, id}) {
+    return id === loadingId ? loadingDelete + running : loadingDelete;
   }
-  
 }
