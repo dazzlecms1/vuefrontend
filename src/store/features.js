@@ -33,18 +33,32 @@ const todos = {
   },
   actions: {
     async create({commit}, {name, description}) {
-      commit('loading', true);
-      await delay(1000);
+      commit('loading', true); // start loading
+      await delay(1000);       // 1 sec delay for loading animation to show
       const res = await api.post('/features', {name, description});
-      if(res.status === 200) {
-        console.log('commit loading false');
-        commit('loading', false);
-        console.log('commit redirect true');
-        commit('redirect', true);
-        console.log('commit notification show: true text: blalba');
-        commit('notification', {show: true, text: res.data.name})
+      if(res.status === 200) { // is success
+        commit('loading', false); // reset loading
+        commit('redirect', true); // redirect true
+        commit('notification', {show: true, text: res.data.name}) // notification show
       }
     },
+    async getAll({commit}) {
+      const res = await api.get('/features');
+      if(res.status === 200) {
+        commit('getAll', res.data);
+      }
+    },
+    async remove({commit}, {id}) {
+      commit('loading', {value: true, button: id});
+      await delay(2200);
+
+      commit('loading', {value: false, button: ''});
+      // const result = await api.delete('/todo/' + id);
+      // if(result.status === 200) {
+      //   commit('deleteTodo', id);
+        
+      // }
+    }
   },
   getters: {
     features: state => state.features,
