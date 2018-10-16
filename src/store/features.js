@@ -37,9 +37,11 @@ const todos = {
       await delay(1000);
       const res = await api.post('/features', {name, description});
       if(res.status === 200) {
-        console.log(res.data);
+        console.log('commit loading false');
         commit('loading', false);
+        console.log('commit redirect true');
         commit('redirect', true);
+        console.log('commit notification show: true text: blalba');
         commit('notification', {show: true, text: res.data.name})
       }
     },
@@ -47,6 +49,7 @@ const todos = {
   getters: {
     features: state => state.features,
     notification: state => state.notification,
+    redirect: state => state.redirect,
   }
 }
 

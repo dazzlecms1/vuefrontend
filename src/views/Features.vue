@@ -8,7 +8,7 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
-
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default {
   data() {
@@ -24,6 +24,7 @@ export default {
   computed: {
     ...mapGetters({
       features: 'features/features',
+      redirect: 'features/redirect',
     }),
     // filteredTodos(arg) {
     //   return (
@@ -42,7 +43,11 @@ export default {
     // }  
   },
   async mounted(){
-    
+    if(this.redirect) {
+      this.$store.commit('features/redirect', false);
+    }
+    await delay(2000);
+    this.$store.commit('features/notification', {show: false, text: ''});
   },
   watch: {
     

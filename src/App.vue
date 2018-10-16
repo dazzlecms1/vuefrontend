@@ -50,15 +50,10 @@ export default {
     }),
   },
   watch: {
-    '$store.state.todos.redirect'(val) {
-      if(val) {
-        this.$store.commit('redirect', false);
-      }
-    },
+    
   },
   async mounted() {
-    await delay(5000);
-    this.$store.commit('features/notification', {show: false, text: ''});
+    
   }
 };
 </script>
