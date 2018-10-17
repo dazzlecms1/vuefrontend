@@ -42,15 +42,32 @@
     </div>
     
 
-  </div> <!-- description -->
+  </div><hr> <!-- description -->
   
+<div class="columns">
   <!-- below are comments -->
+
   <div class="column is-6">
     <p class="is-size-3">Comments</p><hr>
 
-    <div v-for="c in f.comments" :key="c._id">
-      {{c.comment}}
-    </div>
+    <div class="box" v-for="c in f.comments" :key="c._id">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">{{c.createdAt.substr(0, 10)}}</div>
+        </div>
+        <div class="level-right">
+          <i 
+            @click="editCommentMethod(c)"
+            class="fas fa-edit fa-lg"></i>&nbsp;
+          <i 
+            @click="deleteComment({id: c._id})"
+            class="fas fa-trash-alt fa-lg"></i>
+        </div>
+      </div> <!-- left - date; right - edit and remove buttons -->
+      <div class="level">
+        {{c.comment}}
+      </div> <!-- comment itself -->
+    </div><hr>
 
     <div class="field">
       <label class="label">Add a comment</label>
@@ -67,6 +84,30 @@
     </div> <!-- submit button -->
   </div> <!-- comments -->
 
+  <div v-show="comment.showEdit" class="column is-6">
+    <div class="level">
+      <div class="level-left">
+        <p class="is-size-3">Edit comment</p>
+      </div>
+      <div class="level-right">
+        <i @click="comment.showEdit = false"
+          class="fas fa-window-close fa-2x"></i>
+      </div>
+    </div><hr>
+    
+    <div class="control">
+      <textarea v-model="comment.editValue" class="textarea"></textarea>
+    </div>
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <button 
+          @click="editComment({editValue: comment.editValue})"
+          class="button is-link">Update</button>
+      </div>
+    </div> <!-- submit button -->
+  </div> <!-- edit comment form -->
+
+</div>
 </div>
 </template>
 
@@ -89,6 +130,8 @@ export default {
       comment: {
         show: true,
         value: '',
+        editValue: '',
+        showEdit: false,
       }
     }
   },
@@ -96,7 +139,17 @@ export default {
     ...mapActions({
       update: 'features/update',
       postComment: 'features/postComment',
+      editComment: 'features/editComment',
+      deleteComment: 'features/deleteComment',
     }),
+    editCommentMethod(c) {
+      this.comment.showEdit = !this.comment.showEdit;
+      if(this.comment.showEdit) {
+        this.$store.commit('features/setOneComment', c);
+      } else {
+        this.$store.commit('features/setOneComment', []);
+      }
+    }
   },
   computed: {
     ...mapGetters({
@@ -107,7 +160,12 @@ export default {
     await this.$store.dispatch('features/getOne', {id: this.$route.params.id});
   },
   watch: {
-    
+    '$store.state.features.oneFeature': {
+      handler: function(after, before) {
+        console.log('watch');
+      },
+      deep: true,
+    }
   }
 }
 </script>

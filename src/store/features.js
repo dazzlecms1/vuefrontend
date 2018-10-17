@@ -15,6 +15,7 @@ const todos = {
       text: 'default text',
     },
     oneFeature: [],
+    oneComment: [],
   },
   mutations: {
     loading(state, arg) {
@@ -40,6 +41,18 @@ const todos = {
       state.notification.show = show; 
       state.notification.text = text; 
     },
+    setOneComment(state, comment) {
+      state.oneComment = comment;
+    },
+    removeOneComment(state, comment) {
+      state.oneFeature.comments = state.oneFeature.comments.filter(c => comment._id !== c._id)
+    },
+    editOneComment(state, comment) {
+      const index = state.oneFeature.comments.findIndex(c => c._id === comment._id);
+      console.log(state.oneFeature.comments[index]);
+      state.oneFeature.comments[index] = comment;
+      console.log(state.oneFeature.comments[index]);
+    }
   },
   actions: {
     async create({commit}, {name, description}) {
@@ -80,10 +93,22 @@ const todos = {
         commit('getOne', res.data);
       }
     },
-    async postComment({commit, state}, {comment}) {
+    async postComment({state}, {comment}) {
       const res = await api.post('/comments', {comment, feature: state.oneFeature._id})
       if(res.status === 200) {
         console.log(res.data);
+      }
+    },
+    async editComment({commit, state}, {editValue}) {
+      const res = await api.put('/comments/' + state.oneComment._id, {comment: editValue});
+      if(res.status === 200) {
+        commit('editOneComment', res.data);
+      }
+    },
+    async deleteComment({commit}, {id}) {
+      const res = await api.delete('/comments/' + id);
+      if(res.status === 200) {
+        commit('removeOneComment', res.data);
       }
     }
   },
