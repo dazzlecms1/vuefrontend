@@ -1,17 +1,27 @@
 import api from '@/common/api';
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const ideas = {
   namespaced: true,
   state: {     
     ideas: [],
+    commentModal: {
+      active: false,
+      id: [],
+    },
     // oneFeature: [],
     // oneComment: [],
   },
   mutations: {
+    // ideas
     getAll(state, val) {
       state.ideas = val;
     },
+
+    // comments
+    commentModal(state, data) {
+      state.commentModal = data;
+    },
+
     // removeOne(state, feature) {
     //   state.ideas = state.ideas.filter(i => i._id !== feature._id)
     // },
@@ -48,7 +58,17 @@ const ideas = {
       if(res.status === 200) {
         commit('getAll', res.data);
       }
-    },
+    }, // good
+
+    // comments
+    async addComment({commit, state}, {comment}) {
+      const res = await api.post('/comments', {text: comment, idea: state.commentModal.id})
+      if(res.status === 200) {
+        commit('commentModal', {active: false, id: []})
+      }
+    }, // good
+    
+
     // async remove({commit}, {id}) {
     //   commit('loading', {value: true, button: id});
     //   await delay(800);
@@ -71,12 +91,7 @@ const ideas = {
     //     commit('getOne', res.data);
     //   }
     // },
-    // async postComment({state}, {comment}) {
-    //   const res = await api.post('/comments', {comment, feature: state.oneFeature._id})
-    //   if(res.status === 200) {
-    //     console.log(res.data);
-    //   }
-    // },
+
     // async editComment({commit, state}, {editValue}) {
     //   const res = await api.put('/comments/' + state.oneComment._id, {comment: editValue});
     //   if(res.status === 200) {
@@ -92,6 +107,7 @@ const ideas = {
   },
   getters: {
     ideas: state => state.ideas,
+    showCommentModal: state => state.commentModal.active,
     // redirect: state => state.redirect,
     // loading: state => state.loading,
     // oneFeature: state => state.oneFeature,

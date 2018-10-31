@@ -15,7 +15,7 @@
   </nav><br>
   <p class="title is-3">Just creating a habbit of finishing what I started</p>
   
-
+  <add-comment :show="showCommentModal"></add-comment>
 
   <router-view/>
 
@@ -24,9 +24,12 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+import AddCommentVue from './components/AddComment.vue';
 
 export default {
+  components: {
+    addComment: AddCommentVue,
+  },
   data() {
     return {
       
@@ -39,7 +42,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      
+      showCommentModal: 'ideas/showCommentModal',
     }),
   },
   watch: {
