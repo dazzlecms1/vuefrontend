@@ -10,22 +10,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'features',
-      component: () => import('./views/Features.vue'),
+      name: 'ideas',
+      component: () => import('./views/Ideas.vue'),
     },
     {
-      path: '/features/:id',
-      name: 'OneFeature',
-      component: () => import('./views/OneFeature.vue'),
+      path: '/ideas/:id',
+      name: 'OneIdea',
+      component: () => import('./views/OneIdea.vue'),
     },
-    {
-      path: '/create',
-      name: 'Create',
-      component: () => import('./views/Create.vue'),
-      beforeEnter(to, from, next) {
-        store.commit('features/notification', {show: false, text: ''})
-        next();
-      }
-    },
+    
+      
+      // beforeEnter(to, from, next) {
+      //   store.commit('ideas/notification', {show: false, text: ''})
+      //   next();
+      // }
+    
   ],
 });

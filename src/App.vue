@@ -9,19 +9,12 @@
 
     <div class="navbar-start">
       <router-link class="navbar-item" to="/" exact>Home</router-link>
-      <router-link class="navbar-item" to="/create">Create</router-link>
     </div>
 
 
   </nav><br>
-
-  <div 
-    v-show="notification.show"
-    class="notification is-primary column is-12">
-    <button
-      @click="$store.commit('features/notification', {show: false, text: ''})" 
-      class="delete"></button>{{notification.text}}
-  </div>
+  <p class="title is-3">Just creating a habbit of finishing what I started</p>
+  
 
 
   <router-view/>
@@ -46,7 +39,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notification: 'features/notification',
+      
     }),
   },
   watch: {
