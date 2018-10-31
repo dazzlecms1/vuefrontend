@@ -13,11 +13,20 @@
 
 
   </nav><br>
+
   <p class="title is-3">Just creating a habbit of finishing what I started</p>
   
   <add-comment :show="showCommentModal"></add-comment>
 
-  <router-view/>
+  <div class="columns">
+    <div class="column is-2">
+      Sidebar
+    </div>
+    <div class="column is-10">
+      <router-view/>
+    </div>
+  </div>
+  
 
 </div>
 </template>

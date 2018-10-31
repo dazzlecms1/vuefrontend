@@ -59,15 +59,43 @@ const ideas = {
         commit('getAll', res.data);
       }
     }, // good
+    async deleteIdea({dispatch}, {id}) {
+      const res = await api.delete('/ideas/' + id);
+      if(res.status === 200) {
+        dispatch('getAll');
+      }
+    }, // good
 
     // comments
-    async addComment({commit, state}, {comment}) {
+    async addComment({commit, state, dispatch}, {comment}) {
       const res = await api.post('/comments', {text: comment, idea: state.commentModal.id})
       if(res.status === 200) {
-        commit('commentModal', {active: false, id: []})
+        commit('commentModal', {active: false, id: []});
+        dispatch('getAll');
+      }
+    }, // good
+    async deleteComment({dispatch}, {id}) {
+      const res = await api.delete('/comments/' + id);
+      if(res.status === 200) {
+        dispatch('getAll');
       }
     }, // good
     
+    // progress
+    async setProgress({dispatch}, {val, id}) {
+      const res = await api.put(`/ideas/${id}`, {progress: val});
+      if(res.status === 200) {
+        dispatch('getAll');
+      }
+    }, // good
+
+    // archive
+    async addToArchive({dispatch}, {id}) {
+      const res = await api.put(`/ideas/${id}`, {archived: true});
+      if(res.status === 200) {
+        dispatch('getAll');
+      }
+    }, // good
 
     // async remove({commit}, {id}) {
     //   commit('loading', {value: true, button: id});
@@ -98,12 +126,7 @@ const ideas = {
     //     commit('editOneComment', res.data);
     //   }
     // },
-    // async deleteComment({commit}, {id}) {
-    //   const res = await api.delete('/comments/' + id);
-    //   if(res.status === 200) {
-    //     commit('removeOneComment', res.data);
-    //   }
-    // },
+
   },
   getters: {
     ideas: state => state.ideas,
