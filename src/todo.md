@@ -1,2 +1,1 @@
-- remove author property -> changed with youtube api
-- duration -> LATER
+

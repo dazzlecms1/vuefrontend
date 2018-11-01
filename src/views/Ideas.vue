@@ -8,10 +8,10 @@
 
     <div class="level">
       <div class="level-left">
-        <a :href="idea.idea" class="is-size-4">{{idea.video.snippet.title}}</a>
+        <a target="_blank" :href="idea.idea" class="is-size-4">{{idea.video.snippet.title}}</a>
       </div>
       <div class="level-right">
-        <a :href="`https://www.youtube.com/channel/${idea.video.snippet.channelId}/videos`"
+        <a target="_blank" :href="`https://www.youtube.com/channel/${idea.video.snippet.channelId}/videos`"
         >{{idea.video.snippet.channelTitle}}</a>
       </div>
       
@@ -55,11 +55,11 @@
       </div>
     </div><hr> 
 
-    <a :href="idea.idea">
+    <a :href="idea.idea" target="_blank">
       <img :src="idea.video.snippet.thumbnails.high.url" alt=""><hr>
-    </a>
+    </a> <!-- img -->
 
-    
+    Priority: {{idea.priority}}
 
     <progress-bar
       :duration="moment.duration(idea.video.contentDetails.duration).asMinutes()"
