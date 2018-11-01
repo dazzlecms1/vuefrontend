@@ -4,18 +4,20 @@
   <div
     v-if="!idea.archived"
     v-for="idea in ideas" :key="idea._id" 
-    class="column is-12 box">
-
-    <progress-bar
-      :duration="idea.duration"
-      :id="idea._id" 
-      :progress="idea.progress"></progress-bar><hr>
+    class="column is-12 border">
 
     <div class="level">
       <div class="level-left">
         <a :href="idea.idea" class="is-size-4">{{idea.name}}</a>
       </div>
       <div class="level-right">
+        {{idea.author}}
+      </div>
+      
+    </div>
+
+    <div class="level">
+      <div class="level-left">
         
         <div class="level-item">
           <img
@@ -25,22 +27,17 @@
         <div
           @click="$store.dispatch('ideas/deleteIdea', {id: idea._id})" 
           class="level-item">
-          <i v-if="idea.finished" class="fas fa-check fa-lg"></i>
-          <i v-if="!idea.finished" class="fas fa-times fa-lg"></i>
+          <i v-if="idea.finished" class="fas fa-check fa-2x"></i>
+          <i v-if="!idea.finished" class="fas fa-times fa-2x"></i>
         </div> <!-- check or x icon -->
         <div class="level-item">
           <i 
             @click="$store.dispatch('ideas/addToArchive', {id: idea._id})"
-            class="fas fa-archive"></i>
+            class="fas fa-archive fa-2x"></i>
         </div> <!-- archive icon -->
 
       </div>
-    </div>
 
-    <div class="level">
-      <div class="level-left">
-        {{idea.author}}
-      </div>
       <div class="level-right">
         <div class="level-item">
           <i class="far fa-comments fa-2x"></i>
@@ -51,7 +48,13 @@
           </i>
         </div>
       </div>
-    </div><hr>
+    </div><hr> <!-- author and comments -->
+    
+    <progress-bar
+      :duration="idea.duration"
+      :id="idea._id" 
+      :progress="idea.progress">
+    </progress-bar><hr>
     
     <div 
       class="column is-10 is-offset-1">

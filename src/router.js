@@ -14,6 +14,11 @@ export default new Router({
       component: () => import('./views/Ideas.vue'),
     },
     {
+      path: '/createIdea',
+      name: 'CreateIdea',
+      component: () => import('./views/CreateIdea.vue'),
+    },
+    {
       path: '/ideas/:id',
       name: 'OneIdea',
       component: () => import('./views/OneIdea.vue'),

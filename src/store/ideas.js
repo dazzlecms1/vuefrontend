@@ -1,4 +1,8 @@
 import api from '@/common/api';
+import axios from 'axios';
+const key = `key=${process.env.VUE_APP_YT}`;
+const url = `https://www.googleapis.com/youtube/v3/videos?id=`;
+
 
 const ideas = {
   namespaced: true,
@@ -96,6 +100,24 @@ const ideas = {
         dispatch('getAll');
       }
     }, // good
+
+    // test youtube api
+    async ytTest() {
+      const fields = 'fields=items(id,snippet(title,channelId,channelTitle,publishedAt,thumbnails),contentDetails(duration))';
+      const part = 'part=snippet,contentDetails';
+
+      // video 1
+      const id1 = `NlFAvu_8jiY`;
+      const id2 = `RcxeTqxWcIw`;
+      
+
+      const res = await axios({
+        url: `${url}${id1},${id2}&${key}&${fields}&${part}`,
+        method: 'get',
+      })
+
+      console.log(res.data.items);
+    }
 
     // async remove({commit}, {id}) {
     //   commit('loading', {value: true, button: id});

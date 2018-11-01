@@ -17,20 +17,21 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
 ApiService.init();
 
 Vue.use(buefy);
+Vue.use(require('vue-moment'));
 
 Vue.config.productionTip = false;
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
   
-  if(from.name === 'OneTodo') {
-    console.log(store.getters['todos/oneTodo']);
-    store.commit('todos/getOne', {})
-    console.log(store.getters['todos/oneTodo']);
-  }
+//   if(from.name === 'OneTodo') {
+//     console.log(store.getters['todos/oneTodo']);
+//     store.commit('todos/getOne', {})
+//     console.log(store.getters['todos/oneTodo']);
+//   }
 
-  next();
+//   next();
   
-})
+// })
 
 new Vue({
   router,

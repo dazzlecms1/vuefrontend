@@ -19,6 +19,7 @@
   </div>
   
   <div class="column is-1">
+    {{newProgressData}}
     <button
       @click="$store.dispatch('ideas/setProgress', {val: newProgressData, id})"
       class="button is-small">
