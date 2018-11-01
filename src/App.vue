@@ -16,6 +16,8 @@
   </nav><br>
 
   <p class="title is-3">Just creating a habbit of finishing what I started</p>
+
+  
   
   <add-comment :show="showCommentModal"></add-comment>
 

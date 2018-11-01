@@ -2,6 +2,8 @@ import api from '@/common/api';
 import axios from 'axios';
 const key = `key=${process.env.VUE_APP_YT}`;
 const url = `https://www.googleapis.com/youtube/v3/videos?id=`;
+const fields = 'fields=items(id,snippet(title,channelId,channelTitle,publishedAt,thumbnails),contentDetails(duration))';
+const part = 'part=snippet,contentDetails';
 
 
 const ideas = {
@@ -58,10 +60,48 @@ const ideas = {
     //   }
     // },
     async getAll({commit}) {
-      const res = await api.get('/ideas');
+      const res = await api.get('/ideas?archived=false');
       if(res.status === 200) {
+
+        let ids = res.data.map(item => {
+          return item.idea.substring(item.idea.length-11);
+        }); // ID array. They have the same length.
+
+        const apiResult = await axios({
+          url: `${url}${ids.join(',')}&${key}&${fields}&${part}`,
+          method: 'get',
+        });
+        
+        for (let i = 0; i < res.data.length; i ++ ) {
+          let item = res.data[i];
+          item['video'] = apiResult.data.items[i];
+        }
+
         commit('getAll', res.data);
       }
+
+      // remain
+      /*
+      * archived
+      * category
+      * createdAt
+      * finished
+      * progress
+      * archived is by default
+      *
+      */
+
+      // changed
+      // author -> video.snippet.channelTitle
+      // duration -> video.contentDetails.duration (transform with $moment)
+      // name -> video.snippet.title
+      // 
+
+      // new
+      // channelId
+      // publishedAt
+      // thumbnails
+
     }, // good
     async deleteIdea({dispatch}, {id}) {
       const res = await api.delete('/ideas/' + id);
@@ -103,20 +143,9 @@ const ideas = {
 
     // test youtube api
     async ytTest() {
-      const fields = 'fields=items(id,snippet(title,channelId,channelTitle,publishedAt,thumbnails),contentDetails(duration))';
-      const part = 'part=snippet,contentDetails';
-
-      // video 1
-      const id1 = `NlFAvu_8jiY`;
-      const id2 = `RcxeTqxWcIw`;
       
 
-      const res = await axios({
-        url: `${url}${id1},${id2}&${key}&${fields}&${part}`,
-        method: 'get',
-      })
-
-      console.log(res.data.items);
+      
     }
 
     // async remove({commit}, {id}) {
