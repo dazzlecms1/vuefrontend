@@ -2,7 +2,7 @@
   <div>
     <button
       @click="$store.dispatch('ideas/createIdea')" 
-      class="button">Create -> {{$moment.duration('PT15M33S').asMinutes()}}
+      class="button">Create -> 
     </button>
     
   </div>

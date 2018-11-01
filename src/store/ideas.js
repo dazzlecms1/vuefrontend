@@ -80,27 +80,19 @@ const ideas = {
         commit('getAll', res.data);
       }
 
-      // remain
-      /*
+      // we will probably need channel thumbnail or not. 
+
+      /* remain
       * archived
       * category
       * createdAt
       * finished
       * progress
-      * archived is by default
-      *
       */
 
       // changed
-      // author -> video.snippet.channelTitle
       // duration -> video.contentDetails.duration (transform with $moment)
-      // name -> video.snippet.title
-      // 
 
-      // new
-      // channelId
-      // publishedAt
-      // thumbnails
 
     }, // good
     async deleteIdea({dispatch}, {id}) {

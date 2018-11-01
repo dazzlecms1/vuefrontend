@@ -8,13 +8,14 @@
 
     <div class="level">
       <div class="level-left">
-        <a :href="idea.idea" class="is-size-4">{{idea.name}}</a>
+        <a :href="idea.idea" class="is-size-4">{{idea.video.snippet.title}}</a>
       </div>
       <div class="level-right">
-        {{idea.author}}
+        <a :href="`https://www.youtube.com/channel/${idea.video.snippet.channelId}/videos`"
+        >{{idea.video.snippet.channelTitle}}</a>
       </div>
       
-    </div>
+    </div> <!-- name and channel -->
 
     <div class="level">
       <div class="level-left">
@@ -35,7 +36,11 @@
             @click="$store.dispatch('ideas/addToArchive', {id: idea._id})"
             class="fas fa-archive fa-2x"></i>
         </div> <!-- archive icon -->
-
+        <div class="level-item">
+          <span class="is-size-5">
+            Published: {{moment(idea.video.snippet.publishedAt).startOf('day').fromNow()}}
+          </span>
+        </div> <!-- moment -->  
       </div>
 
       <div class="level-right">
@@ -48,13 +53,22 @@
           </i>
         </div>
       </div>
-    </div><hr> <!-- author and comments -->
+    </div><hr> 
+
+    <a :href="idea.idea">
+      <img :src="idea.video.snippet.thumbnails.high.url" alt=""><hr>
+    </a>
+
     
+
     <progress-bar
-      :duration="idea.duration"
+      :duration="moment.duration(idea.video.contentDetails.duration).asMinutes()"
       :id="idea._id" 
       :progress="idea.progress">
-    </progress-bar><hr>
+    </progress-bar><hr> <!-- progress -->
+
+    
+    
     
     <div 
       class="column is-10 is-offset-1">
@@ -79,7 +93,7 @@ export default {
   },  
   data() {
     return {
-      
+       
     }
   },
   methods: {
@@ -94,6 +108,7 @@ export default {
   },
   async mounted(){
     await this.getAll();
+     
     //this.$store.dispatch('ideas/getAll'); // load all notifications
   },
   watch: {

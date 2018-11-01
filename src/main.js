@@ -14,10 +14,13 @@ import '@/assets/loading-btn.css'
 import '@fortawesome/fontawesome-free';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
 
+import moment from 'moment'
+
+Vue.prototype.moment = moment
+
 ApiService.init();
 
 Vue.use(buefy);
-Vue.use(require('vue-moment'));
 
 Vue.config.productionTip = false;
 

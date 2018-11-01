@@ -1,14 +1,17 @@
 <template>
 <div class="columns">
-  <span class="is-size-4">{{progress}} / {{duration}}</span>
+  <span class="is-size-4">{{progress}} / {{Math.trunc(duration)}}</span>
+
   <div class="column is-8">
     <progress
       @click="showInput = !showInput"
       class="progress is-link" :value="((progress/duration) * 100)" :max="100"></progress>
-  </div>
+  </div> <!-- progress bar itself -->
+
   <div v-show="showInput" class="column is-2">
     <input v-model="newProgress" class="input" :min="1" :max="duration" type="number">
-  </div>
+  </div> <!-- hidden input -->
+
   <div class="column is-1">
     <!-- Old: {{progress}}  -->
     <i @click="setDuration({type: 'subtract'})" 
@@ -16,7 +19,7 @@
     <!-- New: {{newProgress}}  -->
     <i @click="setDuration({type: 'add'})"  
       class="fas fa-plus-circle fa-2x"></i>
-  </div>
+  </div> <!-- icons -->
   
   <div class="column is-1">
     {{newProgressData}}
@@ -28,7 +31,7 @@
       </span>
       <span>Set</span>
     </button>
-  </div>
+  </div> <!-- set button -->
   
 
 
