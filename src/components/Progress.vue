@@ -1,40 +1,47 @@
 <template>
-<div class="columns">
-  <span class="is-size-4">{{progress}} / {{Math.trunc(duration)}}</span>
+<div class="column">
+  <button 
+    @click="show = !show"
+    class="button is-link is-fullwidth">Show Progress Bar
+  </button><br>
 
-  <div class="column is-8">
-    <progress
-      @click="showInput = !showInput"
-      class="progress is-link" :value="((progress/duration) * 100)" :max="100"></progress>
-  </div> <!-- progress bar itself -->
+  <div
+    v-show="show" 
+    class="columns">
+    <span class="is-size-4">{{progress}} / {{Math.trunc(duration)}}</span>
 
-  <div v-show="showInput" class="column is-2">
-    <input v-model="newProgress" class="input" :min="1" :max="duration" type="number">
-  </div> <!-- hidden input -->
+    <div class="column is-8">
+      <progress
+        @click="showInput = !showInput"
+        class="progress is-link" :value="((progress/duration) * 100)" :max="100"></progress>
+    </div> <!-- progress bar itself -->
 
-  <div class="column is-1">
-    <!-- Old: {{progress}}  -->
-    <i @click="setDuration({type: 'subtract'})" 
-      class="fas fa-minus-circle fa-2x"></i>
-    <!-- New: {{newProgress}}  -->
-    <i @click="setDuration({type: 'add'})"  
-      class="fas fa-plus-circle fa-2x"></i>
-  </div> <!-- icons -->
-  
-  <div class="column is-1">
-    {{newProgressData}}
-    <button
-      @click="$store.dispatch('ideas/setProgress', {val: newProgressData, id})"
-      class="button is-small">
-      <span class="icon is-small">
-        <i class="fas fa-check"></i>
-      </span>
-      <span>Set</span>
-    </button>
-  </div> <!-- set button -->
-  
+    <div v-show="showInput" class="column is-2">
+      <input v-model="newProgress" class="input" :min="1" :max="duration" type="number">
+    </div> <!-- hidden input -->
 
+    <div class="column is-1">
+      <!-- Old: {{progress}}  -->
+      <i @click="setDuration({type: 'subtract'})" 
+        class="fas fa-minus-circle fa-2x"></i>
+      <!-- New: {{newProgress}}  -->
+      <i @click="setDuration({type: 'add'})"  
+        class="fas fa-plus-circle fa-2x"></i>
+    </div> <!-- icons -->
+    
+    <div class="column is-1">
+      {{newProgressData}}
+      <button
+        @click="$store.dispatch('ideas/setProgress', {val: newProgressData, id})"
+        class="button is-small">
+        <span class="icon is-small">
+          <i class="fas fa-check"></i>
+        </span>
+        <span>Set</span>
+      </button>
+    </div> <!-- set button -->
 
+  </div>
 </div>
 </template>
 
@@ -47,6 +54,7 @@ export default {
   },
   data() {
     return {
+      show: false,
       showInput: false,
       newProgressData: this.progress,
     }

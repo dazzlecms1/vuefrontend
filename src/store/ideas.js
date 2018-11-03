@@ -14,53 +14,34 @@ const ideas = {
       active: false,
       id: [],
     },
-    // oneFeature: [],
-    // oneComment: [],
+    quickAddModal: {
+      active: false,
+    },
+    filter: '', // high low current
   },
   mutations: {
     // ideas
     getAll(state, val) {
       state.ideas = val;
     },
-
     // comments
     commentModal(state, data) {
       state.commentModal = data;
     },
+    // quick add idea modal
+    quickAddIdea(state, {active}) {
+      state.quickAddModal.active = active;
+    }, // in progress
 
-    // removeOne(state, feature) {
-    //   state.ideas = state.ideas.filter(i => i._id !== feature._id)
-    // },
-    // getOne(state, feature) {
-    //   state.oneFeature = feature;
-    // },
-    
-    // setOneComment(state, comment) {
-    //   state.oneComment = comment;
-    // },
-    // removeOneComment(state, comment) {
-    //   state.oneFeature.comments = state.oneFeature.comments.filter(c => comment._id !== c._id)
-    // },
-    // editOneComment(state, comment) {
-    //   const index = state.oneFeature.comments.findIndex(c => c._id === comment._id);
-    //   console.log(state.oneFeature.comments[index]);
-    //   state.oneFeature.comments[index] = comment;
-    //   console.log(state.oneFeature.comments[index]);
-    // }
+    // set filter
+    setFilter(state, {filter}) {
+      state.filter = filter;
+    }
   },
   actions: {
-    // async create({commit}, {name, description}) {
-    //   commit('loading', true); // start loading
-    //   await delay(1000);       // 1 sec delay for loading animation to show
-    //   const res = await api.post('/ideas', {name, description});
-    //   if(res.status === 200) { // is success
-    //     commit('loading', false); // reset loading
-    //     commit('redirect', true); // redirect true
-    //     commit('notification', {show: true, text: res.data.name}) // notification show
-    //   }
-    // },
+    // ideas
     async getAll({commit}) {
-      const res = await api.get('/ideas?archived=false');
+      const res = await api.get('/ideas?archived=false&_sort=createdAt:desc');
       if(res.status === 200) {
 
         let ids = res.data.map(item => {
@@ -80,20 +61,6 @@ const ideas = {
         commit('getAll', res.data);
       }
 
-      // we will probably need channel thumbnail or not. 
-
-      /* remain
-      * archived
-      * category
-      * createdAt
-      * finished
-      * progress
-      */
-
-      // changed
-      // duration -> video.contentDetails.duration (transform with $moment)
-
-
     }, // good
     async deleteIdea({dispatch}, {id}) {
       const res = await api.delete('/ideas/' + id);
@@ -101,6 +68,15 @@ const ideas = {
         dispatch('getAll');
       }
     }, // good
+    async quickAddIdea({dispatch, commit}, {idea}) {
+      const res = await api.post('/ideas', {idea})
+      if(res.status === 200) {
+        commit('quickAddIdea', {active: false});
+        dispatch('getAll');
+      }
+      
+    },
+
 
     // comments
     async addComment({commit, state, dispatch}, {comment}) {
@@ -133,50 +109,31 @@ const ideas = {
       }
     }, // good
 
+    // priority
+    async setPriority({}, {id, priority}) {
+      console.log(id, priority);
+    },
+
     // test youtube api
     async ytTest() {
-      
-
-      
-    }
-
-    // async remove({commit}, {id}) {
-    //   commit('loading', {value: true, button: id});
-    //   await delay(800);
-    //   const res = await api.delete('/ideas/' + id);
-    //   if(res.status === 200) {
-    //     commit('removeOne', res.data);
-    //   }
-    //   commit('loading', {value: false, button: ''});
-      
-    // },
-    // async getOne({commit}, {id}) {
-    //   const res = await api.get('/ideas/' + id);
-    //   if(res.status === 200) {
-    //     commit('getOne', res.data);
-    //   }
-    // },
-    // async update({commit, state}, {element, value}) {
-    //   const res = await api.put('/ideas/' + state.oneFeature._id, {[element]: value});
-    //   if(res.status === 200) {
-    //     commit('getOne', res.data);
-    //   }
-    // },
-
-    // async editComment({commit, state}, {editValue}) {
-    //   const res = await api.put('/comments/' + state.oneComment._id, {comment: editValue});
-    //   if(res.status === 200) {
-    //     commit('editOneComment', res.data);
-    //   }
-    // },
+      console.log('yt test');
+    },
 
   },
   getters: {
-    ideas: state => state.ideas,
+    ideas: state => state.ideas.filter(idea => {
+      if (state.filter === 'high') {
+        return idea.priority === 'high'
+      } else if (state.filter === 'low') {
+        return idea.priority === 'low'
+      } else if (state.filter === 'current') {
+        return idea.priority === 'current' 
+      } else {
+        return idea;
+      }
+    }),
     showCommentModal: state => state.commentModal.active,
-    // redirect: state => state.redirect,
-    // loading: state => state.loading,
-    // oneFeature: state => state.oneFeature,
+    showQuickAddModal: state => state.quickAddModal.active,
   }
 }
 

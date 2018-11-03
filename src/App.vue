@@ -1,6 +1,6 @@
 <template>
 <div id="app"> <!-- #app is being mounted in main.js. Don't remove the id ! -->
-  <nav class="navbar is-transparent">
+  <nav class="navbar is-transparent is-fixed-top">
     <div class="navbar-brand">
       <a class="navbar-item" @click="$store.dispatch('ideas/ytTest')">
         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
@@ -13,11 +13,11 @@
     </div>
 
 
-  </nav><br>
+  </nav><br><br><br><br>
 
   <p class="title is-3">Just creating a habbit of finishing what I started</p>
 
-  
+  <quick-add></quick-add>
   
   <add-comment :show="showCommentModal"></add-comment>
 
@@ -26,6 +26,7 @@
       Sidebar
     </div>
     <div class="column is-10">
+      <second-nav></second-nav>
       <router-view/>
     </div>
   </div>
@@ -37,10 +38,14 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import AddCommentVue from './components/AddComment.vue';
+import SecondNavVue from './components/SecondNav.vue';
+import QuickAddVue from './components/QuickAdd.vue';
 
 export default {
   components: {
     addComment: AddCommentVue,
+    secondNav: SecondNavVue,
+    quickAdd: QuickAddVue,
   },
   data() {
     return {
