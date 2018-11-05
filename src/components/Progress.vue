@@ -1,14 +1,12 @@
 <template>
 <div class="column">
-  <button 
-    @click="show = !show"
-    class="button is-link is-fullwidth">Show Progress Bar
-  </button><br>
+  <i class="fas fa-spinner fa-2x" @click="show = !show"></i>
+  
 
   <div
     v-show="show" 
     class="columns">
-    <span class="is-size-4">{{progress}} / {{Math.trunc(duration)}}</span>
+    <span class="is-size-4">{{Math.trunc(progress)}} / {{Math.trunc(duration)}}</span>
 
     <div class="column is-8">
       <progress
@@ -27,10 +25,12 @@
       <!-- New: {{newProgress}}  -->
       <i @click="setDuration({type: 'add'})"  
         class="fas fa-plus-circle fa-2x"></i>
+      <i @click="setDuration({type: 'skip forward'})"  
+        class="fas fa-fast-forward fa-2x"></i>
     </div> <!-- icons -->
     
     <div class="column is-1">
-      {{newProgressData}}
+      {{Math.trunc(newProgressData)}}
       <button
         @click="$store.dispatch('ideas/setProgress', {val: newProgressData, id})"
         class="button is-small">
@@ -77,6 +77,8 @@ export default {
         this.newProgressData ++;
       } else if(type === 'subtract' && this.newProgressData >= 1) {
         this.newProgressData --;
+      } else if(type === 'skip forward') {
+        this.newProgressData = this._props.duration
       }
     },
   }

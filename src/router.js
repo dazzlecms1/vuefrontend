@@ -23,7 +23,12 @@ export default new Router({
       name: 'OneIdea',
       component: () => import('./views/OneIdea.vue'),
     },
-    
+    // tv
+    {
+      path: '/tv',
+      name: 'TV',
+      component: () => import('./TV/TV.vue'),
+    },
       
       // beforeEnter(to, from, next) {
       //   store.commit('ideas/notification', {show: false, text: ''})

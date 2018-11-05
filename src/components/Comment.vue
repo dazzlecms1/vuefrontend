@@ -1,8 +1,10 @@
 <template>
 <div class="column">
-  <button 
-    class="button is-fullwidth is-link"
-    @click="show = !show">Show comments</button><br>
+    <div class="level-item">
+      <i 
+        @click="show = !show"
+        class="far fa-comments fa-2x"></i>
+    </div>
 
   <div 
     v-show="show"

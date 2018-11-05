@@ -110,8 +110,20 @@ const ideas = {
     }, // good
 
     // priority
-    async setPriority({}, {id, priority}) {
-      console.log(id, priority);
+    async setPriority({dispatch, state}, {id, priority}) {
+      let findCurrent = state.ideas.find(i => i.priority === 'current');
+      
+      if(findCurrent) {
+        const currentIdea = await api.get('/ideas?priority=current');
+      
+        await api.put('/ideas/' + currentIdea.data[0]._id, {priority : 'high'});
+      }
+
+      const res = await api.put('/ideas/' + id, {priority});
+        if(res.status === 200) {
+          dispatch('getAll');
+        }
+
     },
 
     // test youtube api
@@ -134,6 +146,7 @@ const ideas = {
     }),
     showCommentModal: state => state.commentModal.active,
     showQuickAddModal: state => state.quickAddModal.active,
+    filter: state => state.filter,
   }
 }
 

@@ -10,6 +10,7 @@
     <div class="navbar-start">
       <router-link class="navbar-item" to="/" exact>Home</router-link>
       <router-link class="navbar-item" to="/createIdea" exact>Create</router-link>
+      <router-link class="navbar-item" to="/tv" exact>TV</router-link>
     </div>
 
 
@@ -26,7 +27,6 @@
       Sidebar
     </div>
     <div class="column is-10">
-      <second-nav></second-nav>
       <router-view/>
     </div>
   </div>
@@ -38,13 +38,11 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import AddCommentVue from './components/AddComment.vue';
-import SecondNavVue from './components/SecondNav.vue';
 import QuickAddVue from './components/QuickAdd.vue';
 
 export default {
   components: {
     addComment: AddCommentVue,
-    secondNav: SecondNavVue,
     quickAdd: QuickAddVue,
   },
   data() {
