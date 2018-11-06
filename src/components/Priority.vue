@@ -47,3 +47,11 @@ export default {
   }
 }
 </script>
+<style scoped>
+.is-size-5 {
+  cursor: pointer;
+}
+.is-size-5:hover {
+  background-color: azure;
+}
+</style>

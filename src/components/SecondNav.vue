@@ -12,12 +12,22 @@
 
 
     <div
-      v-for="b in buttons" :key="b._id" 
+      v-for="b in watchPriority" :key="b._id" 
       class="column is-3">
       <button 
         @click="$store.commit('ideas/setFilter', {filter: b.filter})"
         :class="filter === b.filter ? activeButton : button">{{b.filter.length === 0 ? 'All' : b.filter}}</button>
-    </div> <!-- high priority -->
+    </div> 
+
+    <div
+      v-for="b in genre" :key="b._id" 
+      class="column is-3">
+      <button :class="button"
+        >{{b.genre}}
+      </button>
+    </div> 
+
+
 
   </div>
 </div>
@@ -31,12 +41,16 @@ export default {
     return {
       button: 'button is-large is-fullwidth is-rounded',
       activeButton: 'button is-large is-fullwidth is-rounded is-link',
-      buttons: [
-        {_id: 1, filter: ''},
-        {_id: 2, filter: 'low'},
-        {_id: 3, filter: 'high'},
-        {_id: 4, filter: 'current'},
+      watchPriority: [
+        {_id: 'p1', filter: ''},
+        {_id: 'p2', filter: 'low'},
+        {_id: 'p3', filter: 'high'},
+        {_id: 'p4', filter: 'current'},
       ],
+      genre: [
+        {_id: 'g1', genre: 'sports'},
+        {_id: 'g2', genre: 'games'},
+      ]
     }
   },
   computed: {

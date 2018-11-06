@@ -18,6 +18,73 @@ const ideas = {
       active: false,
     },
     filter: '', // high low current
+    loading: {
+      current: [],
+      button: 'button ld-ext-right is-large ',
+      btn: 'button ld-ext-right is-large ',
+      animations: [
+        'ld-spin-fast',
+        'ld-cycle',
+        'ld-spin',
+        'ld-heartbeat',
+        'ld-squeeze',
+        'ld-rubber',
+        'ld-tick',
+        'ld-jump',
+        'ld-bounce',
+        'ld-radio',
+        'ld-broadcast',
+        'ld-bounce-a',
+        'ld-clock',
+        'ld-skew',
+        'ld-shadow',
+        'ld-shadow-a',
+        'ld-tremble',
+        'ld-slide-rtl',
+        'ld-slide-ltr',
+        'ld-slide-ttb',
+        'ld-slide-btt',
+        'ld-bounce-rtl',
+        'ld-bounce-ltr',
+        'ld-hit',
+        'ld-wander-h',
+        'ld-wander-v',
+        'ld-orbit',
+        'ld-fade',
+        'ld-rush-ltr',
+        'ld-rush-rtl',
+        'ld-flip',
+        'ld-flip-h',
+        'ld-flip-v',
+        'ld-coin-h',
+        'ld-coin-v',
+        'ld-surprise',
+        'ld-shake',
+        'ld-jelly',
+        'ld-float',
+        'ld-rotate',
+        'ld-blur',
+        'ld-vortex-out',
+        'ld-vortex-in',
+        'ld-wrench',
+        'ld-breath',
+        'ld-blink',
+        'ld-pulse',
+        'ld-jingle',
+        'ld-swim',
+        'ld-leaf',
+        'ld-slot',
+      ],
+      loaders: [
+        'ld-ball',
+        'ld-hourglass',
+        'ld-ring',
+        'ld-square',
+        'ld-cross',
+        'ld-spinner',
+        'ld-pie',
+      ],
+    }
   },
   mutations: {
     // ideas
@@ -36,6 +103,11 @@ const ideas = {
     // set filter
     setFilter(state, {filter}) {
       state.filter = filter;
+    },
+
+    // loading buttons experiments
+    loading(state, {id}) {
+      state.loading.current = id;
     }
   },
   actions: {
@@ -69,7 +141,10 @@ const ideas = {
       }
     }, // good
     async quickAddIdea({dispatch, commit}, {idea}) {
-      const res = await api.post('/ideas', {idea})
+      let newIdea = idea.substring(0, 43);
+      
+      const res = await api.post('/ideas', {idea: newIdea})
+      
       if(res.status === 200) {
         commit('quickAddIdea', {active: false});
         dispatch('getAll');
@@ -147,6 +222,7 @@ const ideas = {
     showCommentModal: state => state.commentModal.active,
     showQuickAddModal: state => state.quickAddModal.active,
     filter: state => state.filter,
+    loading: state => state.loading,
   }
 }
 

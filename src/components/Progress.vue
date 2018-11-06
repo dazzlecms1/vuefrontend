@@ -1,45 +1,45 @@
 <template>
 <div class="column">
-  <i class="fas fa-spinner fa-2x" @click="show = !show"></i>
-  
+  <!-- <i class="fas fa-spinner fa-2x" @click="show = !show"></i> -->
 
   <div
     v-show="show" 
-    class="columns">
-    <span class="is-size-4">{{Math.trunc(progress)}} / {{Math.trunc(duration)}}</span>
+    class="columns is-multiline">
+    <span class="is-size-3">{{Math.trunc(progress)}} / {{Math.trunc(duration)}}</span>
 
-    <div class="column is-8">
+    <div class="column is-12">
       <progress
         @click="showInput = !showInput"
-        class="progress is-link" :value="((progress/duration) * 100)" :max="100"></progress>
+        class="progress is-link" 
+        :value="progress" 
+        :max="Math.trunc(duration)">
+      </progress>
     </div> <!-- progress bar itself -->
 
-    <div v-show="showInput" class="column is-2">
-      <input v-model="newProgress" class="input" :min="1" :max="duration" type="number">
-    </div> <!-- hidden input -->
+    <span class="is-size-3">{{Math.trunc(red.value)}} / {{Math.trunc(duration)}}</span>
 
-    <div class="column is-1">
-      <!-- Old: {{progress}}  -->
-      <i @click="setDuration({type: 'subtract'})" 
-        class="fas fa-minus-circle fa-2x"></i>
-      <!-- New: {{newProgress}}  -->
-      <i @click="setDuration({type: 'add'})"  
-        class="fas fa-plus-circle fa-2x"></i>
-      <i @click="setDuration({type: 'skip forward'})"  
-        class="fas fa-fast-forward fa-2x"></i>
-    </div> <!-- icons -->
-    
-    <div class="column is-1">
-      {{Math.trunc(newProgressData)}}
-      <button
-        @click="$store.dispatch('ideas/setProgress', {val: newProgressData, id})"
-        class="button is-small">
-        <span class="icon is-small">
-          <i class="fas fa-check"></i>
-        </span>
-        <span>Set</span>
-      </button>
-    </div> <!-- set button -->
+    <div class="column is-12">
+      <progress
+        class="progress is-danger" 
+        :value="red.value" 
+        :max="Math.trunc(duration)">
+      </progress>
+    </div> <!-- future progress bar -->
+ 
+    <div class="field has-addons">
+      <p 
+        v-for="button in buttons" :key="button._id"
+        class="control"> 
+        <a
+          @click="setBar({type: button.val})" 
+          class="button is-large">
+          <span class="icon">
+            <i :class="button.icon"></i>
+          </span>
+          <span>{{button.name}}</span>
+        </a>
+      </p>
+    </div> <!-- controls -->
 
   </div>
 </div>
@@ -48,15 +48,25 @@
 <script>
 export default {
   props: {
+    show: Boolean,
     progress: Number,
     duration: Number,
     id: String,
   },
   data() {
     return {
-      show: false,
       showInput: false,
-      newProgressData: this.progress,
+      red: {
+        value: this._props.progress,
+      },
+      buttons: [
+        {_id: 3, val: 'min', name: 'backward', icon: 'fas fa-fast-backward'},
+        {_id: 5, val: 'subtract', name: '1', icon: 'fas fa-minus'},
+        {_id: 1, val: 'add', name: '1', icon: 'fas fa-plus'},
+        {_id: 4, val: 'max', name: 'forward', icon: 'fas fa-fast-forward'},
+        {_id: 2, val: 'set', name: 'set', icon: 'fas fa-save'},
+        {_id: 6, val: 'reset', name: 'reset', icon: 'fas fa-undo'},
+      ],
     }
   },
   computed: {
@@ -72,13 +82,23 @@ export default {
     },
   },
   methods: {
-    setDuration({type}) {
-      if(type === 'add' && this.newProgressData < this.duration) {
-        this.newProgressData ++;
-      } else if(type === 'subtract' && this.newProgressData >= 1) {
-        this.newProgressData --;
-      } else if(type === 'skip forward') {
-        this.newProgressData = this._props.duration
+    // new progress bar
+    setBar({type}) {
+      if(type === 'add' && this.red.value < this.duration) {
+        this.red.value ++;
+      } else if(type === 'subtract' && this.red.value >= 1) {
+        this.red.value --;
+      } else if(type === 'min') {
+        this.red.value = 0;
+      } else if(type === 'max') {
+        this.red.value = this.duration;
+      } else if(type === 'reset') {
+        this.red.value = this.progress;
+      } else if(type === 'set') {
+        this.$store.dispatch('ideas/setProgress', {
+          val: this.red.value, 
+          id: this._props.id
+        });
       }
     },
   }

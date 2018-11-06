@@ -1,10 +1,10 @@
 <template>
 <div class="column">
-    <div class="level-item">
+    <!-- <div class="level-item">
       <i 
         @click="show = !show"
         class="far fa-comments fa-2x"></i>
-    </div>
+    </div> -->
 
   <div 
     v-show="show"
@@ -32,11 +32,12 @@
 <script>
 export default {
   props: {
+    show: Boolean,
     comments: Array,
   },
   data() {
     return {
-      show: false,
+      
     }
   }
 }

@@ -23,10 +23,10 @@
   <add-comment :show="showCommentModal"></add-comment>
 
   <div class="columns">
-    <div class="column is-2">
+    <!-- <div class="column is-2">
       Sidebar
-    </div>
-    <div class="column is-10">
+    </div> -->
+    <div class="column is-12">
       <router-view/>
     </div>
   </div>
