@@ -29,19 +29,18 @@
             <div class="field has-addons">
               <p class="control"> 
                 <a
-                  @click="click({id: idea._id})"
-                  :class="loading.button">
+                  @click="$store.dispatch('ideas/addToArchive', {id: idea._id})"
+                  class="button is-large">
                   <span class="icon">
                     <i class="fas fa-archive"></i>
                   </span>
                   <span>Archive</span>
-                  <div :class="loadingElement({id: idea._id})"></div> 
                 </a>
               </p> <!-- archive -->
               <p class="control"> 
                 <a
                   @click="$store.dispatch('ideas/deleteIdea', {id: idea._id})"
-                  :class="loading.button">
+                  class="button is-large">
                   <span class="icon">
                     <i class="fas fa-times"></i>
                   </span>
@@ -142,27 +141,10 @@ export default {
     ...mapActions({
       getAll: 'ideas/getAll',
     }),
-    async click({id}) {
-      this.$store.commit('ideas/loading', {id});
-      this.loading.button += 'running';
-      await delay(1200);
-      this.loading.button = this.loading.btn; 
-      this.$store.dispatch('ideas/addToArchive', {id: this.idea._id})
-    },
-    loadingElement({id}) {
-      if(id === this.loading.current) {
-        const animation = this.loading.animations[Math.floor(Math.random()*this.loading.animations.length)];
-        const loader = this.loading.loaders[Math.floor(Math.random()*this.loading.loaders.length)];
-        
-        return `ld ${loader} ${animation}`;
-      } 
-
-    }
   },
   computed: {
     ...mapGetters({
       ideas: 'ideas/ideas',
-      loading: 'ideas/loading',
     }),
   },
   async mounted(){

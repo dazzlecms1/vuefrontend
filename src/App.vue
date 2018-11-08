@@ -9,8 +9,7 @@
 
     <div class="navbar-start">
       <router-link class="navbar-item" to="/" exact>Home</router-link>
-      <router-link class="navbar-item" to="/createIdea" exact>Create</router-link>
-      <router-link class="navbar-item" to="/tv" exact>TV</router-link>
+      <router-link class="navbar-item" to="/books" exact>Books</router-link>
     </div>
 
 

@@ -1,26 +1,15 @@
-<template>
-  <div class="column is-offset-4 is-4">
-    
+loadingElement({id}) {
+      if(id === this.loading.current) {
+        const animation = this.loading.animations[Math.floor(Math.random()*this.loading.animations.length)];
+        const loader = this.loading.loaders[Math.floor(Math.random()*this.loading.loaders.length)];
+        
+        return `ld ${loader} ${animation}`;
+      } 
 
-    <a
-      @click="click()"  
-      :class="button">
-      <span class="icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span>Add comment</span>
-      <div :class="loadingElement()"></div> 
-    </a>
-    
-  </div>
-</template>
+    }
 
-<script>
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-export default {
-  data() {
-    return {
+    loading: {
+      current: [],
       button: 'button ld-ext-right is-large ',
       btn: 'button ld-ext-right is-large ',
       animations: [
@@ -86,21 +75,3 @@ export default {
         'ld-pie',
       ],
     }
-  },
-  methods: {
-    async click() {
-      this.button += 'running';
-      await delay(1200);
-      this.button = this.btn; 
-    },
-    loadingElement() {
-      const animation = this.animations[Math.floor(Math.random()*this.animations.length)];
-      const loader = this.loaders[Math.floor(Math.random()*this.loaders.length)];
-      
-      return `ld ${loader} ${animation}`
-    }
-  },
-  
-}
-</script>
-

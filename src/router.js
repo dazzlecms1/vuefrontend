@@ -13,21 +13,11 @@ export default new Router({
       name: 'ideas',
       component: () => import('./views/Ideas.vue'),
     },
+
     {
-      path: '/createIdea',
-      name: 'CreateIdea',
-      component: () => import('./views/CreateIdea.vue'),
-    },
-    {
-      path: '/ideas/:id',
-      name: 'OneIdea',
-      component: () => import('./views/OneIdea.vue'),
-    },
-    // tv
-    {
-      path: '/tv',
-      name: 'TV',
-      component: () => import('./TV/TV.vue'),
+      path: '/books',
+      name: 'Books',
+      component: () => import('@/Books/Books.vue'),
     },
       
       // beforeEnter(to, from, next) {
