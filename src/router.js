@@ -13,12 +13,14 @@ export default new Router({
       name: 'ideas',
       component: () => import('./views/Ideas.vue'),
     },
-
     {
-      path: '/books',
-      name: 'Books',
-      component: () => import('@/Books/Books.vue'),
+      path: '/articles',
+      name: 'Articles',
+      component: () => import('./views/Articles.vue'),
     },
+    
+   
+
       
       // beforeEnter(to, from, next) {
       //   store.commit('ideas/notification', {show: false, text: ''})

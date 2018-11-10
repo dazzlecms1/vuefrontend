@@ -23,6 +23,9 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
 
 // moment
 import moment from 'moment'
+
+
+
 Vue.prototype.moment = moment
 
 ApiService.init();

@@ -129,6 +129,9 @@ const ideas = {
 
     },
 
+    // &t=2m11s
+
+
     // test youtube api
     async ytTest() {
       console.log('yt test');

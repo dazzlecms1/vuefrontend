@@ -49,7 +49,7 @@
               </p> <!-- remove -->
             </div> <!-- archive and remove -->
 
-          </div>
+          </div> <!-- archive, delete -->
         </div> <!-- priority | archive, delete --> 
       </div> <!-- right from title -->
 

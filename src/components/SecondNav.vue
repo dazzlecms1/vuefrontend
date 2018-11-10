@@ -47,9 +47,15 @@ export default {
         {_id: 'p3', filter: 'high'},
         {_id: 'p4', filter: 'current'},
       ],
-      genre: [
-        {_id: 'g1', genre: 'sports'},
+      genre: [ 
+        {_id: 'g1', genre: 'sports',
+          channels: [
+            {_id: 'c1', name: 'Chael Sonnen'},
+            {_id: 'c2', name: 'Behind The Gloves'},
+          ],
+        },
         {_id: 'g2', genre: 'games'},
+        {_id: 'g3', genre: 'dev'},
       ]
     }
   },
