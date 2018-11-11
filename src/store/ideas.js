@@ -5,7 +5,6 @@ const url = `https://www.googleapis.com/youtube/v3/videos?id=`;
 const fields = 'fields=items(id,snippet(title,channelId,channelTitle,publishedAt,thumbnails),contentDetails(duration))';
 const part = 'part=snippet,contentDetails';
 
-
 const ideas = {
   namespaced: true,
   state: {     
@@ -32,7 +31,6 @@ const ideas = {
     quickAddIdea(state, {active}) {
       state.quickAddModal.active = active;
     }, // in progress
-
     // set filter
     setFilter(state, {filter}) {
       state.filter = filter;
@@ -69,18 +67,44 @@ const ideas = {
       }
     }, // good
     async quickAddIdea({dispatch, commit}, {idea}) {
-      let newIdea = idea.substring(0, 43);
+      let progress = 0; // only for minutes.
       
-      const res = await api.post('/ideas', {idea: newIdea})
       
+      if(idea[13].charCodeAt(0) === 46) {
+        
+        progress = +idea.substring(31);
+        progress = Math.trunc(progress/60);
+        console.log(progress);
+        
+        let id = idea.substr(17, 11);
+        idea = "https://www.youtube.com/watch?v=" + id;
+        
+      } else if (idea.length === 43) {
+        console.log('1');
+        idea = idea.substring(0, 43);
+      } else if (idea[44] === 't') {
+        console.log('2');
+        let indexOfMin = idea.indexOf('m', 46);
+        progress = +idea.substring(46, indexOfMin);
+        idea = idea.substring(0, 43);
+
+      } else if (idea[44] === 'f') {
+        console.log('3');
+        idea = idea.substring(0, 43);
+      } else {
+        return console.log('dont know what is going on up here. ')
+      }
+      
+      
+      const res = await api.post('/ideas', {idea, progress})
+    
       if(res.status === 200) {
         commit('quickAddIdea', {active: false});
         dispatch('getAll');
       }
+
       
     },
-
-
     // comments
     async addComment({commit, state, dispatch}, {comment}) {
       const res = await api.post('/comments', {text: comment, idea: state.commentModal.id})
@@ -95,7 +119,6 @@ const ideas = {
         dispatch('getAll');
       }
     }, // good
-    
     // progress
     async setProgress({dispatch}, {val, id}) {
       const res = await api.put(`/ideas/${id}`, {progress: val});
@@ -103,7 +126,6 @@ const ideas = {
         dispatch('getAll');
       }
     }, // good
-
     // archive
     async addToArchive({dispatch}, {id}) {
       const res = await api.put(`/ideas/${id}`, {archived: true});
@@ -111,7 +133,6 @@ const ideas = {
         dispatch('getAll');
       }
     }, // good
-
     // priority
     async setPriority({dispatch, state}, {id, priority}) {
       let findCurrent = state.ideas.find(i => i.priority === 'current');
@@ -127,14 +148,6 @@ const ideas = {
           dispatch('getAll');
         }
 
-    },
-
-    // &t=2m11s
-
-
-    // test youtube api
-    async ytTest() {
-      console.log('yt test');
     },
 
   },

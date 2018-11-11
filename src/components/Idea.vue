@@ -12,7 +12,7 @@
       <div class="column is-8">
         <a 
           target="_blank" 
-          :href="idea.idea" 
+          @click="goToUrl({url: idea.idea})" 
           class="is-size-3 has-text-black-bis">{{idea.video.snippet.title}}
         </a>
       </div> <!-- title -->
@@ -141,6 +141,14 @@ export default {
     ...mapActions({
       getAll: 'ideas/getAll',
     }),
+    goToUrl({url}) {
+      // &t=2m11s
+      const minutes = this.idea.progress;
+      if(minutes !== 0) {
+        url += `&t=${minutes}m0s`;
+      }
+      window.open(url, '_blank');
+    },
   },
   computed: {
     ...mapGetters({
