@@ -26,34 +26,6 @@
     </div>
   </div> <!-- dropdown is-active -->
 
-  <!-- <a
-    @click="show = !show"
-    class="button is-large">
-    <span class="icon">
-      <i class="fas fa-flag"></i>
-    </span>
-    <span>{{idea.priority}}</span>
-  </a> -->
-  
-  <!-- <div 
-    v-show="show"
-    class="field has-addons">
-    <div class="control">
-      <div class="select">
-        <select v-model="priority">
-          <option>current</option>
-          <option>high</option>
-          <option>low</option>
-        </select>
-      </div>
-    </div>
-    <div class="control">
-      <button 
-        @click="$store.dispatch('ideas/setPriority', {id: idea._id, priority})"
-        class="button">Choose</button>
-    </div>
-  </div> -->
-
 </div>
 </template>
 

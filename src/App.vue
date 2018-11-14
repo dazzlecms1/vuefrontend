@@ -2,14 +2,14 @@
 <div id="app"> <!-- #app is being mounted in main.js. Don't remove the id ! -->
   <nav class="navbar is-transparent is-fixed-top">
     <div class="navbar-brand">
-      <a class="navbar-item" @click="$store.dispatch('ideas/ytTest')">
+      <a class="navbar-item" @click="$store.dispatch('ideas/test')">
         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
       </a>
     </div>
 
     <div class="navbar-start">
       <router-link class="navbar-item" to="/" exact>Home</router-link>
-      <router-link class="navbar-item" to="/articles" exact>articles</router-link>
+      <router-link class="navbar-item" to="/books" exact>books</router-link>
     </div>
 
 

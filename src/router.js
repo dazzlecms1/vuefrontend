@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from './store/store';
 
 Vue.use(Router)
 
@@ -14,9 +13,14 @@ export default new Router({
       component: () => import('./views/Ideas.vue'),
     },
     {
-      path: '/articles',
-      name: 'Articles',
-      component: () => import('./views/Articles.vue'),
+      path: '/books',
+      name: 'Books',
+      component: () => import('./Books/Books.vue'),
+    },
+    {
+      path: '/books/:id',
+      name: 'Book',
+      component: () => import('./Books/Book.vue'),
     },
     
    

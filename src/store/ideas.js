@@ -17,6 +17,7 @@ const ideas = {
       active: false,
     },
     filter: '', // high low current
+    genreFilter: '',
   },
   mutations: {
     // ideas
@@ -32,8 +33,12 @@ const ideas = {
       state.quickAddModal.active = active;
     }, // in progress
     // set filter
-    setFilter(state, {filter}) {
-      state.filter = filter;
+    setFilter(state, {filter, type}) {
+      if(type === 'priority'){
+        state.filter = filter;
+      } else if (type === 'genre') {
+        state.genreFilter = filter;
+      }
     },
   },
   actions: {
@@ -59,44 +64,41 @@ const ideas = {
         commit('getAll', res.data);
       }
 
-    }, // good
+    }, 
     async deleteIdea({dispatch}, {id}) {
       const res = await api.delete('/ideas/' + id);
       if(res.status === 200) {
         dispatch('getAll');
       }
-    }, // good
-    async quickAddIdea({dispatch, commit}, {idea}) {
+    }, 
+    async quickAddIdea({dispatch, commit}, {idea, genre}) {
       let progress = 0; // only for minutes.
       
-      
-      if(idea[13].charCodeAt(0) === 46) {
+      if (idea[13].charCodeAt(0) === 46) {
         
-        progress = +idea.substring(31);
-        progress = Math.trunc(progress/60);
-        console.log(progress);
-        
-        let id = idea.substr(17, 11);
-        idea = "https://www.youtube.com/watch?v=" + id;
+        progress = Math.trunc((+idea.substring(31))/60);
+        idea = "https://www.youtube.com/watch?v=" + idea.substr(17, 11);
         
       } else if (idea.length === 43) {
-        console.log('1');
+
         idea = idea.substring(0, 43);
+
       } else if (idea[44] === 't') {
-        console.log('2');
-        let indexOfMin = idea.indexOf('m', 46);
-        progress = +idea.substring(46, indexOfMin);
+
+        progress = +idea.substring(46, idea.indexOf('m', 46));
         idea = idea.substring(0, 43);
 
       } else if (idea[44] === 'f') {
-        console.log('3');
+        
         idea = idea.substring(0, 43);
+
       } else {
         return console.log('dont know what is going on up here. ')
       }
       
-      
-      const res = await api.post('/ideas', {idea, progress})
+       
+
+      const res = await api.post('/ideas', {idea, progress, genre});
     
       if(res.status === 200) {
         commit('quickAddIdea', {active: false});
@@ -112,27 +114,27 @@ const ideas = {
         commit('commentModal', {active: false, id: []});
         dispatch('getAll');
       }
-    }, // good
+    }, 
     async deleteComment({dispatch}, {id}) {
       const res = await api.delete('/comments/' + id);
       if(res.status === 200) {
         dispatch('getAll');
       }
-    }, // good
+    }, 
     // progress
     async setProgress({dispatch}, {val, id}) {
       const res = await api.put(`/ideas/${id}`, {progress: val});
       if(res.status === 200) {
         dispatch('getAll');
       }
-    }, // good
+    }, 
     // archive
     async addToArchive({dispatch}, {id}) {
       const res = await api.put(`/ideas/${id}`, {archived: true});
       if(res.status === 200) {
         dispatch('getAll');
       }
-    }, // good
+    }, 
     // priority
     async setPriority({dispatch, state}, {id, priority}) {
       let findCurrent = state.ideas.find(i => i.priority === 'current');
@@ -149,24 +151,42 @@ const ideas = {
         }
 
     },
+    // genre
+    async setGenre({dispatch, state}, {id, genre}) {
+      console.log(id, genre);
+
+      const res = await api.put('/ideas/' + id, {genre});
+        if(res.status === 200) {
+          dispatch('getAll');
+        }
+    },
+
+    // test
+    async test() {
+      console.log('emtpy test fn');
+      // const res = await api.get('/ideas?archived=false')
+      // let arr = [];
+      // arr = res.data;
+      // for (let i = 0; i < arr.length; i ++ ) {
+      //   let id = arr[i]['id'];
+      //   await api.put('/ideas/' + id, {genre: 'sport'})
+      // }
+    }
 
   },
   getters: {
     ideas: state => state.ideas.filter(idea => {
-      if (state.filter === 'high') {
-        return idea.priority === 'high'
-      } else if (state.filter === 'low') {
-        return idea.priority === 'low'
-      } else if (state.filter === 'current') {
-        return idea.priority === 'current' 
-      } else {
+      
+      if(state.filter === '') {
         return idea;
+      } else {
+        return idea.priority === state.filter && idea.genre === state.genreFilter;
       }
     }),
     showCommentModal: state => state.commentModal.active,
     showQuickAddModal: state => state.quickAddModal.active,
     filter: state => state.filter,
-    loading: state => state.loading,
+    genreFilter: state => state.genreFilter,
   }
 }
 

@@ -15,15 +15,18 @@
       v-for="b in watchPriority" :key="b._id" 
       class="column is-3">
       <button 
-        @click="$store.commit('ideas/setFilter', {filter: b.filter})"
+        @click="$store.commit('ideas/setFilter', {filter: b.filter, type: 'priority'})"
         :class="filter === b.filter ? activeButton : button">{{b.filter.length === 0 ? 'All' : b.filter}}</button>
     </div> 
 
     <div
-      v-for="b in genre" :key="b._id" 
-      class="column is-3">
-      <button :class="button"
-        >{{b.genre}}
+      v-for="g in genre" 
+      :key="g._id" 
+      class="column is-3"
+      @click="$store.commit('ideas/setFilter', {filter: g.genre, type: 'genre'})"
+      >
+      <button 
+        :class="genreFilter === g.genre ? activeButton : button">{{g.genre.length === 0 ? 'All' : g.genre}}
       </button>
     </div> 
 
@@ -48,23 +51,24 @@ export default {
         {_id: 'p4', filter: 'current'},
       ],
       genre: [ 
-        {_id: 'g1', genre: 'sports',
+        {_id: 'g1', genre: 'sport',
           channels: [
             {_id: 'c1', name: 'Chael Sonnen'},
             {_id: 'c2', name: 'Behind The Gloves'},
           ],
         },
-        {_id: 'g2', genre: 'games'},
+        {_id: 'g2', genre: 'gaming'},
         {_id: 'g3', genre: 'dev'},
-      ]
+        {_id: 'g4', genre: 'podcast'},
+      ],
     }
   },
   computed: {
     ...mapGetters({
       filter: 'ideas/filter',
+      genreFilter: 'ideas/genreFilter',
     }),
-  }
-  
+  },
 }
 </script>
 

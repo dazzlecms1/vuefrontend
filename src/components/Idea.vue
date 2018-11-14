@@ -5,6 +5,43 @@
       <!-- <img :src="idea.video.snippet.thumbnails.high.url" alt=""><hr> -->
       <img :src="idea.video.snippet.thumbnails.high.url" alt=""><hr>
     </a> 
+
+
+        <div :class="showDropdown ? 'dropdown is-active' : 'dropdown'"> 
+          <div 
+            @click="showDropdown = !showDropdown"
+            class="dropdown-trigger"> <!-- is-active is for dropdown too -->
+     
+      
+      
+          <p class="control">
+            <a
+              class="button is-large">
+              <span class="icon">
+                <i :class="genreIcons({genre: idea.genre})"></i>
+              </span>
+              <span class="is-size-4">{{idea.genre}}</span>
+              <span class="icon">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </a>
+          </p>
+
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu">
+            <div  
+              v-for="g in genres" :key="g.name"
+              class="dropdown-content">
+              <a
+                @click="clickedItem({genre: g, idea})"
+                :class="g.active ? 'dropdown-item is-active is-size-4' : 'dropdown-item is-size-4'">{{g.name}}</a>
+            </div>
+          </div>
+        </div> <!-- dropdown is-active -->
+
+
+
+    
   </div> <!-- img -->
 
   <div class="column is-9">
@@ -135,19 +172,60 @@ export default {
     return {
       showProgress: true,
       showComments: false,
+      genres: [
+        {name: 'sport', active: false},
+        {name: 'dev', active: false},
+        {name: 'gaming', active: false},
+        {name: 'podcast', active: false},
+      ],
+      showDropdown: false,
     }
   },
   methods: {
     ...mapActions({
       getAll: 'ideas/getAll',
     }),
-    goToUrl({url}) {
-      // &t=2m11s
+    genreIcons({genre}) {
+      if(genre === 'sport') {
+        return 'fas fa-football-ball';
+      } else if (genre === 'gaming') {
+        return 'fas fa-gamepad';
+      } else if (genre === 'dev') {
+        return 'fab fa-js';
+      } else {
+        return 'fas fa-plus'
+      }
+    },
+    async goToUrl({url}) {
+      
       const minutes = this.idea.progress;
       if(minutes !== 0) {
         url += `&t=${minutes}m0s`;
       }
       window.open(url, '_blank');
+
+      await this.$store.dispatch('ideas/setPriority', {id: this.idea._id, priority: 'current'});
+
+    },
+    clickedItem({genre, idea}) {
+      this.genres = this.genres.map(g => {
+        if(g.active) {
+          g.active = false;
+        }
+
+        if(g.name === genre) {
+          g.active = true;
+        }
+
+        return g;
+      });
+
+      this.showDropdown = false;
+
+      if(genre.name !== this.idea.genre) {
+        this.$store.dispatch('ideas/setGenre', {genre: genre.name, id: idea._id})
+      }
+      
     },
   },
   computed: {
