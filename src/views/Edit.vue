@@ -1,13 +1,9 @@
 <template>
-<div>
-  <p class="title"> {{currentUrl}} </p>
-  
-  <p>{{currentSite.status}}</p>
-  <p>{{currentSite.draft}}</p>
-  <p>{{currentSite.compliance}}</p>
-  <p>{{currentSite.createdAt}}</p>
-  <p>{{currentSite.updatedAt}}</p>
-</div>
+  <div>
+    Edit: {{currentUrl}}
+    <p>{{currentSite}}</p>
+    <button class="button is-link">Duplicate page</button>
+  </div>
 </template>
 
 <script>
@@ -33,3 +29,12 @@ export default {
   }
 }
 </script>
+
+
+
+
+
+
+
+
+

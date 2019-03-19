@@ -9,6 +9,9 @@ const ideas = {
     brands: [],
     templates: [],
     currentBrand: null,
+    rooter: {
+      refresh: false,
+    }
   },
   mutations: {
     setAllBrands(state, brands) {
@@ -30,6 +33,9 @@ const ideas = {
     },
     setCurrentBrand(state, currentBrand) {
       state.currentBrand = currentBrand;
+    },
+    toggleRefresh(state, bool) {
+      state.rooter.refresh = bool;
     }
   },
   actions: {
@@ -53,78 +59,21 @@ const ideas = {
       const res = await api.put(`/sites/${site._id}`, {status});
       commit('changePageStatus', res.data);
     },
-    
-    // comments
-    async addComment({commit, state, dispatch}, {comment}) {
-      // const res = await api.post('/comments', {text: comment, idea: state.commentModal.id})
-      // if(res.status === 200) {
-      //   commit('commentModal', {active: false, id: []});
-      //   dispatch('getAll');
-      // }
-    }, 
-    async deleteComment({dispatch}, {id}) {
-      // const res = await api.delete('/comments/' + id);
-      // if(res.status === 200) {
-      //   dispatch('getAll');
-      // }
-    }, 
-    // progress
-    async setProgress({dispatch}, {val, id}) {
-      // const res = await api.put(`/ideas/${id}`, {progress: val});
-      // if(res.status === 200) {
-      //   dispatch('getAll');
-      // }
-    }, 
-    // archive
-    async addToArchive({dispatch}, {id}) {
-      // const res = await api.put(`/ideas/${id}`, {archived: true});
-      // if(res.status === 200) {
-      //   dispatch('getAll');
-      // }
-    }, 
-
-    async setPriority({dispatch, state}, {id, priority}) {
-      // let findCurrent = state.ideas.find(i => i.priority === 'current');
-      
-      // if(findCurrent) {
-      //   const currentIdea = await api.get('/ideas?priority=current');
-      
-      //   await api.put('/ideas/' + currentIdea.data[0]._id, {priority : 'high'});
-      // }
-
-      // const res = await api.put('/ideas/' + id, {priority});
-      //   if(res.status === 200) {
-      //     dispatch('getAll');
-      //   }
-
-    },
-    // genre
-    async setGenre({dispatch, state}, {id, genre}) {
-      // console.log(id, genre);
-
-      // const res = await api.put('/ideas/' + id, {genre});
-      //   if(res.status === 200) {
-      //     dispatch('getAll');
-      //   }
-    },
-
+    async createSite({commit}, data) {
+      if(data.title.length > 2) {
+        console.log(data)
+        const res = await api.post('/sites', data);
+        console.log(res.data)
+        commit('toggleRefresh', true)
+      } else {
+        console.log('title too short')
+      }
+    }
   },
   getters: {
     brands: state => state.brands,
     sites: state => state.sites,
     templates: state => state.templates,
-    // ideas: state => state.ideas.filter(idea => {
-      
-    //   if(state.filter === '') {
-    //     return idea;
-    //   } else {
-    //     return idea.priority === state.filter && idea.genre === state.genreFilter;
-    //   }
-    // }),
-    // showCommentModal: state => state.commentModal.active,
-    // showQuickAddModal: state => state.quickAddModal.active,
-    // filter: state => state.filter,
-    // genreFilter: state => state.genreFilter,
   }
 }
 

@@ -20,10 +20,11 @@
           <option value="rejected">Rejected</option>
           <option value="archived">Archived</option>
           <option value="pending">Pending</option>
+          <option value="deleted">Deleted</option>
         </select>
         <button 
           class="button"
-          @click="$store.dispatch('sites/changePageStatus', {site, status: status.val})">
+          @click="changePageStatus({site, status: status.val})">
           Set Status
         </button>
       </div>
@@ -49,7 +50,12 @@ export default {
     status: Object,
     brand: String,
   },
-
+  methods: {
+    async changePageStatus({site, status}) {
+      await this.$store.dispatch('sites/changePageStatus', {site, status})
+      this.$router.go();
+    }
+  }
 }
 </script>
 

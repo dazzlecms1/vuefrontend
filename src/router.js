@@ -37,6 +37,11 @@ export default new Router({
       name: 'Site',
       component: () => import('./views/Site.vue'),
     },
+    {
+      path: '/brands/:brand/:template/:site/edit',
+      name: 'Edit',
+      component: () => import('./views/Edit.vue'),
+    },
     // {
     //   path: '/books',
     //   name: 'Books',

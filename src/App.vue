@@ -9,7 +9,9 @@
 
     <div class="navbar-start">
       <router-link class="navbar-item" to="/" exact>Home</router-link>
-      <router-link class="navbar-item" to="/brands" exact>brands</router-link>
+      <router-link class="navbar-item" to="/brands" exact>Brands</router-link>
+      <router-link class="navbar-item" to="/brands/playsunny" exact>Play Sunny Brand</router-link>
+      <router-link class="navbar-item" to="/brands/playsunny/create" exact>Quick Create</router-link>
       
       <!-- <router-link class="navbar-item" to="/about" exact>about</router-link> -->
     </div>
