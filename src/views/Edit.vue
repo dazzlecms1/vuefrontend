@@ -1,8 +1,14 @@
 <template>
   <div>
     Edit: {{currentUrl}}
-    <p>{{currentSite}}</p>
-    <button class="button is-link">Duplicate page</button>
+    <p>Status: {{currentSite.status}}</p>
+    <p>Title: {{currentSite.title}}</p>
+    <p>Compliance: {{currentSite.compliance}}</p>
+    <p>Created At: {{currentSite.createdAt}}</p>
+    <p>Updated At: {{currentSite.updatedAt}}</p>
+    <button 
+      @click="duplicatePage(currentSite)"
+      class="button is-link">Duplicate page</button>
   </div>
 </template>
 
@@ -14,6 +20,17 @@ export default {
     return {
       currentSite: {},
       currentUrl: {},
+    }
+  },
+  methods: {
+    duplicatePage(page) {
+      this.$store.dispatch('sites/createSite', {
+        title: page.title + page.updatedAt, 
+        status: page.status, 
+        compliance: page.compliance, 
+        template: page.template._id,
+        brands: page.brands._id,
+      })
     }
   },
   computed: {

@@ -4,6 +4,7 @@ import router from './router'
 import store from './store/store'
 import ApiService from '@/common/api'
 
+
 // bulma
 import buefy from 'buefy'
 import '../node_modules/bulma/css/bulma.css'
@@ -23,8 +24,6 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.css'
 
 // moment
 import moment from 'moment'
-
-
 
 Vue.prototype.moment = moment
 
