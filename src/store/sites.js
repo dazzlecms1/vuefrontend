@@ -68,7 +68,14 @@ const ideas = {
       } else {
         console.log('title too short')
       }
-    }
+    },
+    async publish({commit}, page) {
+      const res = await api.put('/sites/' + page._id, {
+        status: 'published',
+        compliance: 'approved',
+      });
+      console.log(res.data)
+    },
   },
   getters: {
     brands: state => state.brands,

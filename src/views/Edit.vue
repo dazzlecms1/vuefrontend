@@ -12,7 +12,7 @@
     </a>
     &nbsp;
     <a 
-      
+      @click="$store.dispatch('sites/publish', currentSite)"
       class="button is-link">Publish
     </a>
     &nbsp;
@@ -44,7 +44,7 @@ export default {
         template: page.template._id,
         brands: page.brands._id,
       })
-    }
+    },
   },
   computed: {
     ...mapGetters({
