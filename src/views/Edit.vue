@@ -30,7 +30,17 @@
     &nbsp;
     <a 
       @click="updatePage({site: currentSite, title: values.title})"
-      class="button is-link">Update - in progress
+      class="button is-link">Update - works
+    </a>
+    &nbsp;
+    <a 
+      @click="$store.dispatch('sites/deletePage', {id: currentSite._id})"
+      class="button is-link">Delete - works
+    </a>
+    &nbsp;
+    <a 
+      @click="$store.dispatch('sites/archivePage', {id: currentSite._id})"
+      class="button is-link">Archive - works
     </a>
   </div>
 </template>

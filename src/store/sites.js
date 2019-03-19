@@ -81,6 +81,20 @@ const ideas = {
         const res = await api.put('/sites/' + site._id, {title});
         console.log(res.data)
       }
+    },
+    async deletePage({commit}, {id}) {
+      const res = await api.put('/sites/' + id, {
+        status: 'deleted',
+        compliance: 'rejected',
+      })
+      console.log(res.data)
+    },
+    async archivePage({commit}, {id}) {
+      const res = await api.put('/sites/' + id, {
+        status: 'archived',
+        compliance: 'rejected',
+      })
+      console.log(res.data)
     }
   },
   getters: {
