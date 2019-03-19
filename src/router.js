@@ -23,6 +23,11 @@ export default new Router({
       component: () => import('./views/Brand.vue'),
     },
     {
+      path: '/brands/:brand/create',
+      name: 'create',
+      component: () => import('./views/Create.vue'),
+    },
+    {
       path: '/brands/:brand/:template',
       name: 'Template',
       component: () => import('./views/Template.vue'),

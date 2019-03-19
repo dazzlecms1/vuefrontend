@@ -7,7 +7,6 @@
         :key="brand._id">
         
         <router-link 
-
           :to="'brands/' + brand.brand1name">
           {{brand.brand1name}}
         </router-link>

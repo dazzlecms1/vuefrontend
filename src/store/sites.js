@@ -20,6 +20,14 @@ const ideas = {
     setAllTemplates(state, templates) {
       state.templates = templates;
     },
+    changePageStatus(state, modifiedPage) {
+      state.sites.map(s => {
+        if(s._id === modifiedPage._id) {
+          return modifiedPage;
+        }
+        return s;
+      })
+    },
     setCurrentBrand(state, currentBrand) {
       state.currentBrand = currentBrand;
     }
@@ -40,43 +48,12 @@ const ideas = {
       const res = await api.get('/templates');
       commit('setAllTemplates', res.data)
     }, 
-    
-    async quickAddIdea({dispatch, commit}, {idea, genre}) {
-      // let progress = 0; // only for minutes.
-      
-      // if (idea[13].charCodeAt(0) === 46) {
-        
-      //   progress = Math.trunc((+idea.substring(31))/60);
-      //   idea = "https://www.youtube.com/watch?v=" + idea.substr(17, 11);
-        
-      // } else if (idea.length === 43) {
-
-      //   idea = idea.substring(0, 43);
-
-      // } else if (idea[44] === 't') {
-
-      //   progress = +idea.substring(46, idea.indexOf('m', 46));
-      //   idea = idea.substring(0, 43);
-
-      // } else if (idea[44] === 'f') {
-        
-      //   idea = idea.substring(0, 43);
-
-      // } else {
-      //   return console.log('dont know what is going on up here. ')
-      // }
-      
-       
-
-      // const res = await api.post('/ideas', {idea, progress, genre});
-    
-      // if(res.status === 200) {
-      //   commit('quickAddIdea', {active: false});
-      //   dispatch('getAll');
-      // }
-
-      
+    async changePageStatus({commit}, {site, status}) {
+      console.log(site._id, status);
+      const res = await api.put(`/sites/${site._id}`, {status});
+      commit('changePageStatus', res.data);
     },
+    
     // comments
     async addComment({commit, state, dispatch}, {comment}) {
       // const res = await api.post('/comments', {text: comment, idea: state.commentModal.id})

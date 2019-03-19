@@ -10,6 +10,7 @@
     <div class="navbar-start">
       <router-link class="navbar-item" to="/" exact>Home</router-link>
       <router-link class="navbar-item" to="/brands" exact>brands</router-link>
+      
       <!-- <router-link class="navbar-item" to="/about" exact>about</router-link> -->
     </div>
 

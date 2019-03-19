@@ -1,7 +1,12 @@
 <template>
 <div>
   <p class="title"> {{currentUrl}} </p>
-  {{currentSite}}
+  
+  <p>{{currentSite.status}}</p>
+  <p>{{currentSite.draft}}</p>
+  <p>{{currentSite.compliance}}</p>
+  <p>{{currentSite.createdAt}}</p>
+  <p>{{currentSite.updatedAt}}</p>
 </div>
 </template>
 

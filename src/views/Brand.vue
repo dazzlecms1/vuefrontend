@@ -1,43 +1,45 @@
 <template>
 <div class="column is-10 is-offset-1">
-  <p class="title">Active pages</p>
+  <router-link
+    :to="`/brands/${$route.params.brand}/create`"
+  >Create
+  </router-link>
   <ul>
-    <div
+    <site-component
       class="box"
       v-for="site in sitesData"
-      :key="site._id">
-      <div>Template: 
-        <router-link
-          :to="`/brands/${brand}/${site.template.templatename}`">
-          {{site.template.templatename}}
-        </router-link>
-      </div>
-      <div>status: {{site.status}}</div>
-      <div>title: 
-        <router-link
-          :to="`/brands/${brand}/${site.template.templatename}/${site.title}`">
-          {{site.title}}
-        </router-link>
-      </div>
-      <div>createdAt: {{site.createdAt}}</div>
-      <div>updatedAt: {{site.updatedAt}}</div>
-    </div>
+      :key="site._id"
+      :site="site"
+      :status="status"
+      :brand="brand"
+      >
+    </site-component>
   </ul>
-  <p class="title">Pending pages</p>
 </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
+
 export default {
-  data: function() {
+  components: {
+    siteComponent: () => import('@/components/SiteComponent.vue'),
+  },
+  data() {
     return {
+      status: {
+        show: false,
+        val: 'draft',
+      },
       brand: {},
       brandsData: [],
       sitesData: [],
       allSites: [],
     }
+  },
+  methods: {
+    
   },
   async mounted() {
     this.brand = this.$route.params.brand;
@@ -56,3 +58,6 @@ export default {
   }
 }
 </script>
+
+
+
