@@ -2,29 +2,21 @@
 <div id="app"> <!-- #app is being mounted in main.js. Don't remove the id ! -->
   <nav class="navbar is-transparent is-fixed-top">
     <div class="navbar-brand">
-      <a class="navbar-item" @click="$store.dispatch('ideas/test')">
+      <a class="navbar-item" >
         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
       </a>
     </div>
 
     <div class="navbar-start">
       <router-link class="navbar-item" to="/" exact>Home</router-link>
-      <router-link class="navbar-item" to="/books" exact>books</router-link>
+      <router-link class="navbar-item" to="/brands" exact>brands</router-link>
+      <!-- <router-link class="navbar-item" to="/about" exact>about</router-link> -->
     </div>
 
 
   </nav><br><br><br><br>
 
-  <p class="title is-3">Just creating a habbit of finishing what I started</p>
-
-  <quick-add></quick-add>
-  
-  <add-comment :show="showCommentModal"></add-comment>
-
   <div class="columns">
-    <!-- <div class="column is-2">
-      Sidebar
-    </div> -->
     <div class="column is-12">
       <router-view/>
     </div>
@@ -36,13 +28,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import AddCommentVue from './components/AddComment.vue';
-import QuickAddVue from './components/QuickAdd.vue';
+
 
 export default {
   components: {
-    addComment: AddCommentVue,
-    quickAdd: QuickAddVue,
+    
   },
   data() {
     return {
@@ -51,24 +41,29 @@ export default {
   },
   methods: {
     ...mapActions({
-
+      
     }),
   },
   computed: {
     ...mapGetters({
-      showCommentModal: 'ideas/showCommentModal',
+       
     }),
   },
   watch: {
     
   },
   async mounted() {
-    
+    await this.$store.dispatch('sites/getAllBrands', {name: 'asd'})
+    await this.$store.dispatch('sites/getAllSites', {name: 'asd'})
+    await this.$store.dispatch('sites/getAllTemplates', {name: 'asd'})
   }
 };
 </script>
 
 <style>
+* {
+  font-size: 24px;
+}
 .router-link-active {
   text-decoration: underline;
 }

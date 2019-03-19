@@ -9,19 +9,39 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'ideas',
-      component: () => import('./views/Ideas.vue'),
+      name: 'Index',
+      component: () => import('./views/Index.vue'),
     },
     {
-      path: '/books',
-      name: 'Books',
-      component: () => import('./Books/Books.vue'),
+      path: '/brands',
+      name: 'brands',
+      component: () => import('./views/Brands.vue'),
     },
     {
-      path: '/books/:id',
-      name: 'Book',
-      component: () => import('./Books/Book.vue'),
+      path: '/brands/:brand',
+      name: 'Brand',
+      component: () => import('./views/Brand.vue'),
     },
+    {
+      path: '/brands/:brand/:template',
+      name: 'Template',
+      component: () => import('./views/Template.vue'),
+    },
+    {
+      path: '/brands/:brand/:template/:site',
+      name: 'Site',
+      component: () => import('./views/Site.vue'),
+    },
+    // {
+    //   path: '/books',
+    //   name: 'Books',
+    //   component: () => import('./Books/Books.vue'),
+    // },
+    // {
+    //   path: '//:id',
+    //   name: 'Book',
+    //   component: () => import('./Books/Book.vue'),
+    // },
     
    
 
