@@ -6,9 +6,20 @@
     <p>Compliance: {{currentSite.compliance}}</p>
     <p>Created At: {{currentSite.createdAt}}</p>
     <p>Updated At: {{currentSite.updatedAt}}</p>
-    <button 
+    <a
       @click="duplicatePage(currentSite)"
-      class="button is-link">Duplicate page</button>
+      class="button is-link">Duplicate page
+    </a>
+    &nbsp;
+    <a 
+      
+      class="button is-link">Publish
+    </a>
+    &nbsp;
+    <a 
+      
+      class="button is-link">Update
+    </a>
   </div>
 </template>
 
@@ -24,8 +35,10 @@ export default {
   },
   methods: {
     duplicatePage(page) {
+      let date = this.moment();
+      let dateNow = date.format('YYYY-MM-DD HH:mm:ss');
       this.$store.dispatch('sites/createSite', {
-        title: page.title + page.updatedAt, 
+        title: page.title + "-" + dateNow, 
         status: page.status, 
         compliance: page.compliance, 
         template: page.template._id,
