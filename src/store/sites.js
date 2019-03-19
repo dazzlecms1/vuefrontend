@@ -95,6 +95,9 @@ const ideas = {
         compliance: 'rejected',
       })
       console.log(res.data)
+    },
+    async login({commit}) {
+      console.log('login')
     }
   },
   getters: {

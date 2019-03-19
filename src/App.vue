@@ -15,6 +15,15 @@
       
       <!-- <router-link class="navbar-item" to="/about" exact>about</router-link> -->
     </div>
+    <div class="navbar-end">
+      <!-- <router-link class="navbar-item" to="/" exact>Home</router-link> -->
+      <a
+        @click="$store.dispatch('sites/login')" 
+        class="button">Login</a>
+      <a class="button">Register</a>
+
+      <a class="button">Logout</a>
+    </div>
 
 
   </nav><br><br><br><br>
