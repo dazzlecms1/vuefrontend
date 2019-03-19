@@ -76,6 +76,12 @@ const ideas = {
       });
       console.log(res.data)
     },
+    async update({commit}, {site, title}) {
+      if(title.length > 2) {
+        const res = await api.put('/sites/' + site._id, {title});
+        console.log(res.data)
+      }
+    }
   },
   getters: {
     brands: state => state.brands,
